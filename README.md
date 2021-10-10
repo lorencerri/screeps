@@ -10,7 +10,7 @@ My personal AI that I'm developing for the Screeps: World game.
 -   [ ] Have couriers run materials from containers to spawn
 -   [ ] Use Grunt to allow me to make folders and better organize code
 -   [ ] Only allow max amount of creeps to go to source based on available spots
--   []
+-   [ ] Creeps should have their own part templates
 
 **Known Issues**
 
