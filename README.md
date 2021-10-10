@@ -13,6 +13,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [x] Creeps should have their own part templates
 - [ ] Haul relative to spawn, not creep
 - [ ] Have idle creeps move to a flag
+- [ ] Implement a priority queue for building types (extensions -> containers -> roads)
 
 **Known Issues**
 
