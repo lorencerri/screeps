@@ -27,7 +27,7 @@ const Builder = {
 
 			// Only pick up energy if spawn is full
 			if (!options.shouldWithdrawSpawner) {
-				// TODO: Change this
+				// TODO: Change this to one away from spawn
 				return creep.moveTo(spawn, { visualizePathStyle });
 			}
 
