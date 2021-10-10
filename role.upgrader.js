@@ -2,6 +2,7 @@ const visualizePathStyle = { stroke: '#ffffff' };
 
 const Upgrader = {
 	run: function (creep, options) {
+		return;
 		// Handle upgrading state
 		if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
 			creep.memory.upgrading = false;

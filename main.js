@@ -20,23 +20,24 @@ module.exports.loop = function () {
 
 		// Get creep count of this type
 		const count = _.filter(Game.creeps, (creep) => creep.memory.role === type).length;
-
+		console.log(count < role.max);
 		// Determine if more should be spawned
 		if (count < role.max) {
 			// Determine parts of the creep
 			const parts = [...role.parts.base];
+
+			// Add parts by amount of extensions
 			if (role.parts.add) {
-				// Add parts by amount of extensions
 				const maxParts = extensions.length + (3 - role.parts.base.length);
 				for (let i = 0; i < maxParts; i++) parts.push(...role.parts.add);
-
-				// Spawn creep
-				spawn.spawnCreep(parts, `${type}_${Game.time}`, {
-					memory: {
-						role: type
-					}
-				});
 			}
+
+			// Spawn creep
+			spawn.spawnCreep(parts, `${type}_${Game.time}`, {
+				memory: {
+					role: type
+				}
+			});
 		}
 	}
 
