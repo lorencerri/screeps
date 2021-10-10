@@ -1,3 +1,4 @@
+const { getOppositeDirection } = require('helpers');
 const visualizePathStyle = { stroke: '#ffffff' };
 
 const Upgrader = {
@@ -30,6 +31,7 @@ const Upgrader = {
 				creep.say('r' + creep.pos.getRangeTo(spawn));
 				// Don't wait adjacent to spawner in an effort to not block other creeps
 				if (creep.pos.getRangeTo(spawn) > 2) return creep.moveTo(spawn, { visualizePathStyle });
+				else if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
 				else return creep.say('waiting');
 			}
 
