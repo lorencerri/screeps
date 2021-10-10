@@ -20,7 +20,7 @@ module.exports.loop = function () {
 
 		// Get creep count of this type
 		const count = _.filter(Game.creeps, (creep) => creep.memory.role === type).length;
-		console.log(count < role.max);
+
 		// Determine if more should be spawned
 		if (count < role.max) {
 			// Determine parts of the creep
@@ -64,6 +64,7 @@ module.exports.loop = function () {
     // Get best order based on price per unit
     const bestOrder = _.max(orders, (order) => order.price);*/
 
-	// If there is unused CPU for this tick, generate a pixel
-	console.log(Game.cpu.generatePixel());
+	// If your excess CPU bucket is full, use 10000 CPU to generate a pixel
+	console.log(`Your bucket currently has ${Game.cpu.bucket}/10000 excess CPU required to generate a pixel.`);
+	if (Game.cpu.bucket >= 10000) Game.cpu.generatePixel();
 };
