@@ -16,6 +16,8 @@ const Harvester = {
                 creep.moveTo(source, {
                     visualizePathStyle,
                 });
+            } else {
+                creep.say(harvest);
             }
         } else {
             // Determine which structure to deposit energy

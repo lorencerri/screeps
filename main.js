@@ -1,10 +1,11 @@
 const _ = require("lodash");
+const Config = require("config");
 const Harvester = require("role.harvester");
 const Upgrader = require("role.upgrader");
 const Builder = require("role.builder");
 
 const limits = {
-    harvester: 5,
+    harvester: 6,
     upgrader: 2,
     builder: 2,
 };
@@ -24,23 +25,34 @@ module.exports.loop = function () {
             spawn.store.getFreeCapacity(RESOURCE_ENERGY) === 0);
 
     // Replenish creeps when they die
-    for (const limit in limits) {
+    for (const type in Config) {
+        const role = Config[type];
+
+        // Get creep count of this type
         const count = _.filter(
             Game.creeps,
-            (creep) => creep.memory.role == limit
+            (creep) => creep.memory.role === type
         ).length;
 
-        const parts = [WORK, CARRY, MOVE];
-        for (let i = 0; i < extensions.length; i++) {
-            parts.push(WORK);
-        }
+        // Determine if more should be spawned
+        if (count < role.max) {
+            // Determine parts of the creep
+            const parts = [...role.parts.base];
+            if (role.parts.add) {
+                // Add parts by amount of extensions
+                const maxParts =
+                    extensions.length + (3 - role.parts.base.length);
+                for (let i = 0; i < maxParts; i++) {
+                    parts.push(...role.parts.add);
+                }
 
-        if (count < limits[limit]) {
-            spawn.spawnCreep(parts, `${limit}_${Game.time}`, {
-                memory: {
-                    role: limit,
-                },
-            });
+                // Spawn creep
+                spawn.spawnCreep(parts, `${type}_${Game.time}`, {
+                    memory: {
+                        role: type,
+                    },
+                });
+            }
         }
     }
 
