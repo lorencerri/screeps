@@ -4,12 +4,6 @@ const Harvester = require("role.harvester");
 const Upgrader = require("role.upgrader");
 const Builder = require("role.builder");
 
-const limits = {
-    harvester: 6,
-    upgrader: 2,
-    builder: 2,
-};
-
 module.exports.loop = function () {
     const spawn = Game.spawns["Spawn1"];
 
