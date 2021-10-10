@@ -12,7 +12,7 @@ const Config = {
 		max: 6,
 		parts: {
 			base: [WORK, CARRY, MOVE],
-			add: [CARRY, MOVE]
+			add: [CARRY, MOVE, CARRY, WORK]
 		}
 	},
 	builder: {

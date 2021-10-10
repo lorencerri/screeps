@@ -4,7 +4,7 @@ const visualizePathStyle = { stroke: '#ffffff' };
 const Upgrader = {
 	run: function (creep, options) {
 		// TODO: Fix this creep not moving when the spawn is not empty
-
+		return;
 		// Handle upgrading state
 		if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
 			creep.memory.upgrading = false;
@@ -28,11 +28,10 @@ const Upgrader = {
 
 			// Only pick up energy if spawn is full
 			if (!options.shouldWithdrawSpawner) {
-				creep.say('r' + creep.pos.getRangeTo(spawn));
 				// Don't wait adjacent to spawner in an effort to not block other creeps
 				if (creep.pos.getRangeTo(spawn) > 2) return creep.moveTo(spawn, { visualizePathStyle });
 				else if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
-				else return creep.say('waiting');
+				else return;
 			}
 
 			const withdraw = creep.withdraw(spawn, RESOURCE_ENERGY);

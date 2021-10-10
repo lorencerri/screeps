@@ -29,11 +29,10 @@ const Builder = {
 
 			// Only pick up energy if spawn is full
 			if (!options.shouldWithdrawSpawner) {
-				creep.say('r' + creep.pos.getRangeTo(spawn));
 				// Don't wait adjacent to spawner in an effort to not block other creeps
 				if (creep.pos.getRangeTo(spawn) > 2) return creep.moveTo(spawn, { visualizePathStyle });
 				else if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
-				else return creep.say('waiting');
+				else return;
 			}
 
 			const withdraw = creep.withdraw(spawn, RESOURCE_ENERGY);
