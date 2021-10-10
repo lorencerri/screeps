@@ -14,6 +14,9 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Haul relative to spawn, not creep
 - [ ] Have idle creeps move to a flag
 - [ ] Implement a priority queue for building types (extensions -> containers -> roads)
+- [ ] Implement a road building & repair queue
+- [ ] Automatically place road building orders on frequently traveled paths (possibly by couriers only while not on expeditions)
+- [ ] Implement scout class
 
 **Known Issues**
 

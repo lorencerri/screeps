@@ -11,7 +11,7 @@ module.exports.loop = function () {
 		filter: (structure) => structure.structureType === STRUCTURE_EXTENSION
 	});
 	const shouldWithdrawSpawner =
-		extensions.length === 0 ||
+		(extensions.length === 0 && spawn.getFreeCapacity === 0) ||
 		(extensions.every((structure) => structure.store.getFreeCapacity(RESOURCE_ENERGY) === 0) && spawn.store.getFreeCapacity(RESOURCE_ENERGY) === 0);
 
 	// Replenish creeps when they die
