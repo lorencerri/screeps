@@ -4,7 +4,7 @@ const Upgrader = require("role.upgrader");
 const Builder = require("role.builder");
 
 const limits = {
-    harvester: 4,
+    harvester: 5,
     upgrader: 2,
     builder: 2,
 };
@@ -12,23 +12,16 @@ const limits = {
 module.exports.loop = function () {
     const spawn = Game.spawns["Spawn1"];
 
-    const extensionCount = spawn.room.find(STRUCTURE_EXTENSION).length;
-    const areAllExtensionsFull =
-        spawn.room.find(FIND_STRUCTURES, {
-            filter: (structure) =>
-                structure.structureType === STRUCTURE_EXTENSION,
-        }).length === 0 ||
-        spawn.room
-            .find(FIND_STRUCTURES, {
-                filter: (structure) =>
-                    structure.structureType === STRUCTURE_EXTENSION,
-            })
-            .every(
-                (structure) =>
-                    structure.store.getFreeCapacity(RESOURCE_ENERGY) === 0
-            );
-    const isSpawnFull = spawn.store.getFreeCapacity(RESOURCE_ENERGY) === 0;
-    const shouldWithdrawSpawner = areAllExtensionsFull && isSpawnFull;
+    const extensions = spawn.room.find(FIND_STRUCTURES, {
+        filter: (structure) => structure.structureType === STRUCTURE_EXTENSION,
+    });
+    const shouldWithdrawSpawner =
+        extensions.length === 0 ||
+        (extensions.every(
+            (structure) =>
+                structure.store.getFreeCapacity(RESOURCE_ENERGY) === 0
+        ) &&
+            spawn.store.getFreeCapacity(RESOURCE_ENERGY) === 0);
 
     // Replenish creeps when they die
     for (const limit in limits) {
@@ -38,7 +31,7 @@ module.exports.loop = function () {
         ).length;
 
         const parts = [WORK, CARRY, MOVE];
-        for (let i = 0; i < extensionCount; i++) {
+        for (let i = 0; i < extensions.length; i++) {
             parts.push(WORK);
         }
 
