@@ -1,7 +1,7 @@
 const Config = {
 	harvester: {
 		priority: 100,
-		max: 9,
+		max: 7,
 		parts: {
 			base: [WORK, WORK, MOVE, CARRY],
 			add: WORK
