@@ -71,8 +71,7 @@ module.exports.loop = function () {
 			const spawned = spawn.spawnCreep(parts, `${type}_${Game.time}`, {
 				memory: {
 					role: type
-				},
-				dryRun: true
+				}
 			});
 
 			if (spawned !== OK) {
