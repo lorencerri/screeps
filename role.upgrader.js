@@ -23,10 +23,13 @@ const Upgrader = {
 			}
 		} else {
 			// Handle energy pickup
-			const spawn = Game.spawns['Spawn1'];
+			const spawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
 
 			// Only pick up energy if spawn is full
-			if (!options.shouldWithdrawSpawner) return;
+			if (!options.shouldWithdrawSpawner) {
+				// TODO: Change this
+				return creep.moveTo(spawn, { visualizePathStyle });
+			}
 
 			const withdraw = creep.withdraw(spawn, RESOURCE_ENERGY);
 
