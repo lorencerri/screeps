@@ -9,14 +9,14 @@ const Config = {
 	},
 	upgrader: {
 		priority: 5,
-		max: 4,
+		max: 6,
 		parts: {
 			base: [WORK, CARRY, MOVE],
 			add: [CARRY, MOVE]
 		}
 	},
 	builder: {
-		max: 3,
+		max: 4,
 		parts: {
 			base: [WORK, CARRY, MOVE],
 			add: [WORK, WORK, CARRY]
