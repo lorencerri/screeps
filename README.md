@@ -24,9 +24,10 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Rewrite the parts system of spawning, should allow for every x part put an additional y part
 - [ ] Couriers should go to upgraders
 - [ ] If spawn is full, deposit to directly adjacent container
-- [ ] Implement IMPORT and EXPORT containers, with creeps automatically moving based on a queue
+- [ ] Implement IMPORT, EXPORT, and STORAGE containers, with creeps automatically moving based on a queue
 - [ ] Implement a builder area and an upgrader area
 - [ ] Implement rooms for the various roles
+- [ ] Automatically determine wether a chest is import or export using heuristics
 
 **Known Issues**
 
