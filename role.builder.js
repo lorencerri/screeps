@@ -1,3 +1,5 @@
+const visualizePathStyle = { stroke: "#ffffff" };
+
 const Builder = {
     run: function (creep, options) {
         // Handle building state
@@ -22,7 +24,7 @@ const Builder = {
         } else {
             // Handle energy pickup
             const spawn = Game.spawns["Spawn1"];
-            console.log(options.shouldWithdrawSpawner);
+
             // Only pick up energy if spawn is full
             if (!options.shouldWithdrawSpawner) return;
 

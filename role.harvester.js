@@ -17,7 +17,7 @@ const Harvester = {
                     visualizePathStyle,
                 });
             }
-        } else if (spawn.energy < spawn.energyCapacity) {
+        } else {
             // Determine which structure to deposit energy
             const targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -42,9 +42,9 @@ const Harvester = {
                 } else if (transfer === ERR_FULL) {
                     creep.say("Target is full!");
                 }
+            } else {
+                creep.say("Full!");
             }
-        } else {
-            creep.say("⏳ Idle");
         }
     },
 };

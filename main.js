@@ -14,9 +14,15 @@ module.exports.loop = function () {
 
     const extensionCount = spawn.room.find(STRUCTURE_EXTENSION).length;
     const areAllExtensionsFull =
-        spawn.room.find(STRUCTURE_EXTENSION).length === 0 ||
+        spawn.room.find(FIND_STRUCTURES, {
+            filter: (structure) =>
+                structure.structureType === STRUCTURE_EXTENSION,
+        }).length === 0 ||
         spawn.room
-            .find(STRUCTURE_EXTENSION)
+            .find(FIND_STRUCTURES, {
+                filter: (structure) =>
+                    structure.structureType === STRUCTURE_EXTENSION,
+            })
             .every(
                 (structure) =>
                     structure.store.getFreeCapacity(RESOURCE_ENERGY) === 0
@@ -52,10 +58,10 @@ module.exports.loop = function () {
         // Run script based on role
         if (creep.memory.role === "harvester") {
             Harvester.run(creep);
-        } else if (creep.memory.role === "upgrader") {
-            Upgrader.run(creep, { shouldWithdrawSpawner });
         } else if (creep.memory.role === "builder") {
             Builder.run(creep, { shouldWithdrawSpawner });
+        } else if (creep.memory.role === "upgrader") {
+            Upgrader.run(creep, { shouldWithdrawSpawner });
         }
     }
 
