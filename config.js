@@ -19,7 +19,7 @@ const Config = {
 		max: 4,
 		parts: {
 			base: [WORK, CARRY, MOVE],
-			add: [WORK, WORK, CARRY]
+			add: [WORK, CARRY, CARRY]
 		}
 	},
 	courier: {
