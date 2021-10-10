@@ -30,7 +30,7 @@ module.exports.loop = function () {
             (creep) => creep.memory.role == limit
         ).length;
 
-        const parts = [WORK, CARRY, MOVE];
+        const parts = [WORK, WORK, MOVE];
         for (let i = 0; i < extensions.length; i++) {
             parts.push(WORK);
         }
