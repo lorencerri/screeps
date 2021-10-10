@@ -11,7 +11,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Use Grunt to allow me to make folders and better organize code
 - [ ] Only allow max amount of creeps to go to source based on available spots
 - [x] Creeps should have their own part templates
-- [x] Haul relative to spawn, not creep
+- [ ] Haul relative to spawn, not creep
 
 **Known Issues**
 

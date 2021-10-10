@@ -18,7 +18,7 @@ const Harvester = {
 				creep.say(harvest);
 			}
 		} else {
-			// TODO: Change this to only target extensions
+			// TODO: If there's a container nearby, fill it instead of going back to Spawn
 			// Determine which structure to deposit energy
 			const targets = creep.room.find(FIND_STRUCTURES, {
 				filter: (structure) => {
