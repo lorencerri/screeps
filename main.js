@@ -89,9 +89,9 @@ module.exports.loop = function () {
 		if (creep.memory.role === 'harvester') {
 			Harvester.run(creep);
 		} else if (creep.memory.role === 'builder') {
-			//Builder.run(creep, { shouldWithdrawSpawner });
+			Builder.run(creep, { shouldWithdrawSpawner });
 		} else if (creep.memory.role === 'upgrader') {
-			//Upgrader.run(creep, { shouldWithdrawSpawner });
+			Upgrader.run(creep, { shouldWithdrawSpawner });
 		} else if (creep.memory.role === 'courier') {
 			Courier.run(creep);
 		}
