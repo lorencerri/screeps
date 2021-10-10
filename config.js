@@ -5,6 +5,7 @@ const Config = {
 		parts: {
 			base: [WORK, WORK, MOVE, CARRY],
 			add: WORK
+			/* TODO: A [WORK, CARRY] combo should add that instead of a single part */
 		}
 	},
 	upgrader: {
