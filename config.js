@@ -2,7 +2,7 @@ const Config = {
 	harvester: {
 		max: 6,
 		parts: {
-			base: [WORK, MOVE],
+			base: [WORK, MOVE, MOVE],
 			add: [WORK]
 		}
 	},

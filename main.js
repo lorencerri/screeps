@@ -33,11 +33,16 @@ module.exports.loop = function () {
 			}
 
 			// Spawn creep
-			spawn.spawnCreep(parts, `${type}_${Game.time}`, {
+			const spawned = spawn.spawnCreep(parts, `${type}_${Game.time}`, {
 				memory: {
 					role: type
 				}
 			});
+
+			// If there isn't enough energy, don't try to produce other types of creeps
+			if (spawned === ERR_NOT_ENOUGH_ENERGY) {
+				break;
+			}
 		}
 	}
 

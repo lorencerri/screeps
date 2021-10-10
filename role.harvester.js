@@ -2,8 +2,6 @@ const visualizePathStyle = { stroke: '#ffffff' };
 
 const Harvester = {
 	run: function (creep) {
-		const spawn = Game.spawns['Spawn1'];
-
 		// If creep's inventory is empty, start harvesting
 		if (creep.store.getFreeCapacity() > 0) {
 			// Find closest source
