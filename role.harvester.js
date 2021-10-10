@@ -5,7 +5,7 @@ const Harvester = {
 		// If creep's inventory is empty, start harvesting
 		if (creep.store.getFreeCapacity() > 0) {
 			// Find closest source
-			const source = creep.pos.findClosestByPath(FIND_SOURCES);
+			const source = creep.pos.findClosestByPath(FIND_SOURCES, { filter: (s) => s.energy > 0 });
 
 			// Attempt to harvest source
 			const harvest = creep.harvest(source);
