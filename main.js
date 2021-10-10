@@ -5,12 +5,25 @@ const Upgrader = require('role.upgrader');
 const Builder = require('role.builder');
 const Courier = require('role.courier');
 
+const typesToEnergy = {
+	WORK: 100,
+	CARRY: 50,
+	MOVE: 50,
+	ATTACK: 80,
+	RANGED_ATTACK: 150,
+	HEAL: 250,
+	CLAIM: 600,
+	TOUGH: 10
+};
+
 module.exports.loop = function () {
 	const spawn = Game.spawns['Spawn1'];
 
 	const extensions = spawn.room.find(FIND_STRUCTURES, {
 		filter: (structure) => structure.structureType === STRUCTURE_EXTENSION
 	});
+
+	// use energyCapacityAvailable
 	const shouldWithdrawSpawner =
 		(extensions.length === 0 && spawn.getFreeCapacity === 0) ||
 		(extensions.every((structure) => structure.store.getFreeCapacity(RESOURCE_ENERGY) === 0) && spawn.store.getFreeCapacity(RESOURCE_ENERGY) === 0);
@@ -29,19 +42,37 @@ module.exports.loop = function () {
 			// Determine parts of the creep
 			const parts = [...role.parts.base];
 
-			// Add parts by amount of extensions
-			if (role.parts.add) {
-				const maxParts = extensions.length + (3 - role.parts.base.length);
-				for (let x = 0; x < maxParts; x++) parts.push(...role.parts.add);
+			// Determine energy capacity
+			let remainingEnergyCapacity = extensions.length * 50 + 300;
+
+			for (let x = 0; x < role.parts.base.length; x++) {
+				remainingEnergyCapacity -= typesToEnergy[role.parts.base[x].toUpperCase()];
+			}
+
+			if (remainingEnergyCapacity < 0) {
+				console.log('Not enough energy for the base parts!');
+			}
+
+			let iters = 0; // just in case, infinite loop protection
+			while (remainingEnergyCapacity > 0 && iters <= 50) {
+				remainingEnergyCapacity -= typesToEnergy[role.parts.add.toUpperCase()];
+				if (remainingEnergyCapacity >= 0) {
+					parts.push(role.parts.add);
+				}
+				iters++;
 			}
 
 			// Spawn creep
-			console.log(`[Spawning] ${type}`);
+			console.log(`[Spawning] ${type} -> ${parts.join(', ')}`);
 			const spawned = spawn.spawnCreep(parts, `${type}_${Game.time}`, {
 				memory: {
 					role: type
 				}
 			});
+
+			if (spawned !== OK) {
+				console.log(`[Spawning] ${type} failed: ${spawned}`);
+			}
 
 			// If there isn't enough energy, don't try to produce other types of creeps
 			if (spawned === ERR_NOT_ENOUGH_ENERGY || spawned === OK || spawned === ERR_BUSY) {
@@ -58,9 +89,9 @@ module.exports.loop = function () {
 		if (creep.memory.role === 'harvester') {
 			Harvester.run(creep);
 		} else if (creep.memory.role === 'builder') {
-			Builder.run(creep, { shouldWithdrawSpawner });
+			//Builder.run(creep, { shouldWithdrawSpawner });
 		} else if (creep.memory.role === 'upgrader') {
-			Upgrader.run(creep, { shouldWithdrawSpawner });
+			//Upgrader.run(creep, { shouldWithdrawSpawner });
 		} else if (creep.memory.role === 'courier') {
 			Courier.run(creep);
 		}

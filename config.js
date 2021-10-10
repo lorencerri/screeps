@@ -1,10 +1,10 @@
 const Config = {
 	harvester: {
 		priority: 100,
-		max: 7,
+		max: 9,
 		parts: {
-			base: [WORK, MOVE, CARRY],
-			add: [WORK]
+			base: [WORK, WORK, MOVE, CARRY],
+			add: WORK
 		}
 	},
 	upgrader: {
@@ -21,10 +21,10 @@ const Config = {
 		}
 	},
 	courier: {
-		max: 1,
+		max: 2,
 		parts: {
 			base: [CARRY, MOVE, CARRY, CARRY],
-			add: [CARRY]
+			add: CARRY
 		}
 	}
 };
