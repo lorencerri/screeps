@@ -23,6 +23,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Implement scout class
 - [ ] Rewrite the parts system of spawning, should allow for every x part put an additional y part
 - [ ] Couriers should go to upgraders
+- [ ] If spawn is full, deposit to directly adjacent container
 
 **Known Issues**
 
