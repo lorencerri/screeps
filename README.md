@@ -17,6 +17,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Implement a road building & repair queue
 - [ ] Automatically place road building orders on frequently traveled paths (possibly by couriers only while not on expeditions)
 - [ ] Implement scout class
+- [ ] Rewrite the parts system of spawning, should allow for every x part put an additional y part
 
 **Known Issues**
 
