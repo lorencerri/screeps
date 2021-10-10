@@ -43,6 +43,8 @@ const Harvester = {
 				}
 
 				creep.say(transfer);
+			} else {
+				creep.say(ERR_FULL);
 			}
 		}
 	}
