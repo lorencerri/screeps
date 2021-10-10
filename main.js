@@ -53,13 +53,15 @@ module.exports.loop = function () {
 				console.log('Not enough energy for the base parts!');
 			}
 
-			let iters = 0; // just in case, infinite loop protection
-			while (remainingEnergyCapacity > 0 && iters <= 50) {
-				remainingEnergyCapacity -= typesToEnergy[role.parts.add.toUpperCase()];
-				if (remainingEnergyCapacity >= 0) {
-					parts.push(role.parts.add);
+			if (role.parts.add) {
+				let iters = 0; // just in case, infinite loop protection
+				while (remainingEnergyCapacity > 0 && iters <= 50) {
+					remainingEnergyCapacity -= typesToEnergy[role.parts.add.toUpperCase()];
+					if (remainingEnergyCapacity >= 0) {
+						parts.push(role.parts.add);
+					}
+					iters++;
 				}
-				iters++;
 			}
 
 			// Spawn creep

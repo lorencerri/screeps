@@ -11,13 +11,15 @@ const Config = {
 		priority: 5,
 		max: 2,
 		parts: {
-			base: [WORK, CARRY, MOVE]
+			base: [WORK, CARRY, MOVE],
+			add: CARRY
 		}
 	},
 	builder: {
 		max: 2,
 		parts: {
-			base: [WORK, CARRY, MOVE]
+			base: [WORK, CARRY, MOVE],
+			add: CARRY
 		}
 	},
 	courier: {
