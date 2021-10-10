@@ -56,9 +56,11 @@ module.exports.loop = function () {
 			if (role.parts.add) {
 				let iters = 0; // just in case, infinite loop protection
 				while (remainingEnergyCapacity > 0 && iters <= 50) {
-					remainingEnergyCapacity -= typesToEnergy[role.parts.add.toUpperCase()];
-					if (remainingEnergyCapacity >= 0) {
-						parts.push(role.parts.add);
+					for (let x = 0; x < role.parts.add.length; x++) {
+						const part = role.parts.add[x];
+						remainingEnergyCapacity -= typesToEnergy[part.toUpperCase()];
+						if (remainingEnergyCapacity >= 0) parts.push(part);
+						else break;
 					}
 					iters++;
 				}
@@ -69,7 +71,8 @@ module.exports.loop = function () {
 			const spawned = spawn.spawnCreep(parts, `${type}_${Game.time}`, {
 				memory: {
 					role: type
-				}
+				},
+				dryRun: true
 			});
 
 			if (spawned !== OK) {
