@@ -26,7 +26,10 @@ const Builder = {
 			const spawn = Game.spawns['Spawn1'];
 
 			// Only pick up energy if spawn is full
-			if (!options.shouldWithdrawSpawner) return;
+			if (!options.shouldWithdrawSpawner) {
+				// TODO: Change this
+				return creep.moveTo(spawn, { visualizePathStyle });
+			}
 
 			const withdraw = creep.withdraw(spawn, RESOURCE_ENERGY);
 
