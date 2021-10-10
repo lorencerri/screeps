@@ -8,6 +8,7 @@ const Config = {
 		}
 	},
 	upgrader: {
+		priority: 5,
 		max: 2,
 		parts: {
 			base: [WORK, CARRY, MOVE]
