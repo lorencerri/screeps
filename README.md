@@ -4,6 +4,10 @@ My personal AI that I'm developing for the Screeps: World game.
 
 ---
 
+**Notes**
+
+- Couriers should act as transport belts
+
 **TODO**
 
 - [ ] Build containers next to sources
@@ -18,6 +22,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Automatically place road building orders on frequently traveled paths (possibly by couriers only while not on expeditions)
 - [ ] Implement scout class
 - [ ] Rewrite the parts system of spawning, should allow for every x part put an additional y part
+- [ ] Couriers should go to upgraders
 
 **Known Issues**
 
