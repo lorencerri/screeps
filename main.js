@@ -63,4 +63,7 @@ module.exports.loop = function () {
 
     // Get best order based on price per unit
     const bestOrder = _.max(orders, (order) => order.price);*/
+
+	// If there is unused CPU for this tick, generate a pixel
+	console.log(Game.cpu.generatePixel());
 };
