@@ -20,6 +20,7 @@ My personal AI that I'm developing for the Screeps: World game.
 
 **Known Issues**
 
-- [] Multiple creeps will go towards the same source, despite only one mining spot being available
+- [ ] Multiple creeps will go towards the same source, despite only one mining spot being available
+- [ ] Creeps will still leave the deposit structure even if they only partially cleared their inventory
 
 https://gist.github.com/tedivm/53063e46b58ef80e9df1
