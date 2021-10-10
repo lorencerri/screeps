@@ -44,7 +44,7 @@ const Courier = {
 			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
 				filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.store.getFreeCapacity(RESOURCE_ENERGY) > 0
 			});
-			console.log(container);
+
 			if (container) {
 				// If container is found, move to it and withdraw energy
 				const withdraw = creep.withdraw(container, RESOURCE_ENERGY);
