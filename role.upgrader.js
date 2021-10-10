@@ -3,8 +3,6 @@ const visualizePathStyle = { stroke: '#ffffff' };
 
 const Upgrader = {
 	run: function (creep, options) {
-		// TODO: Fix this creep not moving when the spawn is not empty
-		return;
 		// Handle upgrading state
 		if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
 			creep.memory.upgrading = false;
