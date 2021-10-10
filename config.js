@@ -21,9 +21,9 @@ const Config = {
 		}
 	},
 	courier: {
-		max: 0,
+		max: 1,
 		parts: {
-			base: [CARRY, MOVE],
+			base: [CARRY, MOVE, CARRY, CARRY],
 			add: [CARRY]
 		}
 	}
