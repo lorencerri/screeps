@@ -1,26 +1,17 @@
 const visualizePathStyle = { stroke: "#ffffff" };
 
-const Harvester = {
-    run: function (creep) {
-        const spawn = Game.spawns["Spawn1"];
+const Courier = {
+    run: function (creep, options) {
+        // Handle hauling state
+        if (creep.memory.hauling && creep.store[RESOURCE_ENERGY] == 0) {
+            creep.memory.hauling = false;
+        }
+        if (!creep.memory.hauling && creep.store.getFreeCapacity() == 0) {
+            creep.memory.hauling = true;
+        }
 
-        // If creep's inventory is empty, start harvesting
-        if (creep.store.getFreeCapacity() > 0) {
-            // Find closest source
-            const source = creep.pos.findClosestByPath(FIND_SOURCES);
-            // Attempt to harvest source
-            const harvest = creep.harvest(source);
-
-            // If out of range, move towards source
-            if (harvest === ERR_NOT_IN_RANGE) {
-                creep.moveTo(source, {
-                    visualizePathStyle,
-                });
-            } else {
-                creep.say(harvest);
-            }
-        } else {
-            // TODO: Change this to only target extensions
+        // Handle hauling
+        if (creep.memory.hauling) {
             // Determine which structure to deposit energy
             const targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -48,8 +39,27 @@ const Harvester = {
             } else {
                 creep.say("Full!");
             }
+        } else {
+            // Find closest non-empty container
+            const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                filter: (s) =>
+                    s.structureType == STRUCTURE_CONTAINER &&
+                    s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
+            });
+
+            if (container) {
+                // If container is found, move to it and withdraw energy
+                const withdraw = creep.withdraw(container, RESOURCE_ENERGY);
+
+                // If out of range, move towards container
+                if (withdraw == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(container, {
+                        visualizePathStyle,
+                    });
+                }
+            }
         }
     },
 };
 
-module.exports = Harvester;
+module.exports = Courier;

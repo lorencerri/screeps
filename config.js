@@ -19,7 +19,7 @@ const Config = {
         },
     },
     courier: {
-        max: 2,
+        max: 0,
         parts: {
             base: [CARRY, MOVE],
             add: [CARRY],
