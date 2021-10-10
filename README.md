@@ -26,6 +26,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] If spawn is full, deposit to directly adjacent container
 - [ ] Implement IMPORT and EXPORT containers, with creeps automatically moving based on a queue
 - [ ] Implement a builder area and an upgrader area
+- [ ] Implement rooms for the various roles
 
 **Known Issues**
 
