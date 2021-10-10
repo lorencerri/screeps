@@ -15,7 +15,9 @@ module.exports.loop = function () {
 		(extensions.every((structure) => structure.store.getFreeCapacity(RESOURCE_ENERGY) === 0) && spawn.store.getFreeCapacity(RESOURCE_ENERGY) === 0);
 
 	// Replenish creeps when they die
-	for (const type in Config) {
+	const prioritized = Object.keys(Config).sort((a, b) => Config[b].priority || 0 - Config[a].priority || 0);
+	for (let i = 0; i < prioritized.length; i++) {
+		const type = prioritized[i];
 		const role = Config[type];
 
 		// Get creep count of this type
@@ -29,18 +31,19 @@ module.exports.loop = function () {
 			// Add parts by amount of extensions
 			if (role.parts.add) {
 				const maxParts = extensions.length + (3 - role.parts.base.length);
-				for (let i = 0; i < maxParts; i++) parts.push(...role.parts.add);
+				for (let x = 0; x < maxParts; x++) parts.push(...role.parts.add);
 			}
 
 			// Spawn creep
+			console.log(`Spawning: ${type}`);
 			const spawned = spawn.spawnCreep(parts, `${type}_${Game.time}`, {
 				memory: {
 					role: type
 				}
 			});
-
+			console.log(spawned);
 			// If there isn't enough energy, don't try to produce other types of creeps
-			if (spawned === ERR_NOT_ENOUGH_ENERGY) {
+			if (spawned === ERR_NOT_ENOUGH_ENERGY || spawned === OK || spawned === ERR_BUSY) {
 				break;
 			}
 		}

@@ -6,6 +6,7 @@ const Harvester = {
 		if (creep.store.getFreeCapacity() > 0) {
 			// Find closest source
 			const source = creep.pos.findClosestByPath(FIND_SOURCES);
+
 			// Attempt to harvest source
 			const harvest = creep.harvest(source);
 
@@ -14,9 +15,8 @@ const Harvester = {
 				creep.moveTo(source, {
 					visualizePathStyle
 				});
-			} else {
-				creep.say(harvest);
 			}
+			creep.say(harvest);
 		} else {
 			// TODO: If there's a container nearby, fill it instead of going back to Spawn
 			// Determine which structure to deposit energy
@@ -40,11 +40,9 @@ const Harvester = {
 					creep.moveTo(targets[0], {
 						visualizePathStyle
 					});
-				} else if (transfer === ERR_FULL) {
-					creep.say('Target is full!');
 				}
-			} else {
-				creep.say('Full!');
+
+				creep.say(transfer);
 			}
 		}
 	}
