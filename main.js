@@ -3,6 +3,7 @@ const Config = require('config');
 const Harvester = require('role.harvester');
 const Upgrader = require('role.upgrader');
 const Builder = require('role.builder');
+const Courier = require('role.courier');
 
 module.exports.loop = function () {
 	const spawn = Game.spawns['Spawn1'];
@@ -60,6 +61,8 @@ module.exports.loop = function () {
 			Builder.run(creep, { shouldWithdrawSpawner });
 		} else if (creep.memory.role === 'upgrader') {
 			Upgrader.run(creep, { shouldWithdrawSpawner });
+		} else if (creep.memory.role === 'courier') {
+			Courier.run(creep);
 		}
 	}
 
