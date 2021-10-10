@@ -12,6 +12,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Only allow max amount of creeps to go to source based on available spots
 - [x] Creeps should have their own part templates
 - [ ] Haul relative to spawn, not creep
+- [ ] Have idle creeps move to a flag
 
 **Known Issues**
 

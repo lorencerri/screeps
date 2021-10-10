@@ -35,13 +35,13 @@ module.exports.loop = function () {
 			}
 
 			// Spawn creep
-			console.log(`Spawning: ${type}`);
+			console.log(`[Spawning] ${type}`);
 			const spawned = spawn.spawnCreep(parts, `${type}_${Game.time}`, {
 				memory: {
 					role: type
 				}
 			});
-			console.log(spawned);
+
 			// If there isn't enough energy, don't try to produce other types of creeps
 			if (spawned === ERR_NOT_ENOUGH_ENERGY || spawned === OK || spawned === ERR_BUSY) {
 				break;
@@ -73,6 +73,6 @@ module.exports.loop = function () {
     const bestOrder = _.max(orders, (order) => order.price);*/
 
 	// If your excess CPU bucket is full, use 10000 CPU to generate a pixel
-	console.log(`Your bucket currently has ${Game.cpu.bucket}/10000 excess CPU required to generate a pixel.`);
+	console.log(`[Ext] Your bucket currently has ${Game.cpu.bucket}/10000 excess CPU required to generate a pixel.`);
 	if (Game.cpu.bucket >= 10000) Game.cpu.generatePixel();
 };
