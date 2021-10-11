@@ -8,6 +8,7 @@ My personal AI that I'm developing for the Screeps: World game.
 
 - Couriers should act as transport belts
 - Couriers should evenly distribute energy between containers. When idle, they should find the closest highest filled, and the closest lowest filled, making them even.
+- Harvesters should run off the source, not off the creep
 
 **TODO**
 

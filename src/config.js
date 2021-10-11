@@ -4,7 +4,7 @@ const Config = {
 		max: 6,
 		parts: {
 			base: [WORK, CARRY, MOVE],
-			add: [WORK]
+			add: [WORK, CARRY]
 		}
 	},
 	upgrader: {
