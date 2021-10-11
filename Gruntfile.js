@@ -11,8 +11,20 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-text-replace');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.initConfig({
+		watch: {
+			scripts: {
+				files: 'src/*.js',
+				tasks: ['clean', 'copy:screeps', 'replace:screeps', 'screeps'],
+				options: {
+					interrupt: true,
+					spawn: false
+				}
+			}
+		},
+
 		screeps: {
 			options: {
 				email: email,
