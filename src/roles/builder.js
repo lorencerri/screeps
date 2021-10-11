@@ -14,11 +14,11 @@ const Builder = {
 
 		// Handle building
 		if (creep.memory.building) {
-			const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-			if (targets.length) {
-				const build = creep.build(targets[0]);
+			const target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+			if (target) {
+				const build = creep.build(target);
 				if (build == ERR_NOT_IN_RANGE) {
-					creep.moveTo(targets[0], {
+					creep.moveTo(target, {
 						visualizePathStyle: { stroke: '#ffffff' }
 					});
 				}
