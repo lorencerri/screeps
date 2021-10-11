@@ -12,25 +12,29 @@ const Courier = {
 
 		// Handle hauling
 		if (creep.memory.hauling) {
-			// Determine which structure to deposit energy
-			const targets = creep.room.find(FIND_STRUCTURES, {
-				filter: (structure) => {
+			// Determine closest depleted energy storage
+			const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+				filter: (s) => {
 					return (
-						(structure.structureType === STRUCTURE_EXTENSION ||
-							structure.structureType === STRUCTURE_SPAWN ||
-							structure.structureType === STRUCTURE_TOWER) &&
-						structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+						(s.structureType === STRUCTURE_EXTENSION ||
+							(s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)) ||
+							s.structureType === STRUCTURE_SPAWN ||
+							s.structureType === STRUCTURE_TOWER) &&
+						s.store.getFreeCapacity(RESOURCE_ENERGY) > 0
 					);
 				}
 			});
-
+			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+				filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)
+			});
+			console.log(target);
 			// If target is available, transfer energy
-			if (targets.length > 0) {
-				const transfer = creep.transfer(targets[0], RESOURCE_ENERGY);
+			if (target) {
+				const transfer = creep.transfer(target, RESOURCE_ENERGY);
 
 				// If out of range, move towards spawn
 				if (transfer === ERR_NOT_IN_RANGE) {
-					creep.moveTo(targets[0], {
+					creep.moveTo(target, {
 						visualizePathStyle
 					});
 				} else if (transfer === ERR_FULL) {
@@ -42,7 +46,8 @@ const Courier = {
 		} else {
 			// Find closest non-empty container
 			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.store.getUsedCapacity(RESOURCE_ENERGY) > 0
+				filter: (s) =>
+					s.structureType == STRUCTURE_CONTAINER && s.store.getUsedCapacity(RESOURCE_ENERGY) > 0 && !s.pos.inRangeTo(creep.room.controller, 3)
 			});
 
 			if (container) {

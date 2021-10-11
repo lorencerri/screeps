@@ -21,22 +21,34 @@ const Upgrader = {
 				creep.moveTo(controller, { visualizePathStyle });
 			}
 		} else {
-			// Handle energy pickup
-			const spawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
+			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+				filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)
+			});
 
-			// Only pick up energy if spawn is full
-			if (!options.shouldWithdrawSpawner) {
-				// Don't wait adjacent to spawner in an effort to not block other creeps
-				if (creep.pos.getRangeTo(spawn) > 2) return creep.moveTo(spawn, { visualizePathStyle });
-				else if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
-				else return;
-			}
+			if (container) {
+				const withdraw = creep.withdraw(container, RESOURCE_ENERGY);
 
-			const withdraw = creep.withdraw(spawn, RESOURCE_ENERGY);
+				// If out of range, move towards spawn
+				if (withdraw == ERR_NOT_IN_RANGE) {
+					creep.moveTo(container, { visualizePathStyle });
+				}
+			} else {
+				const spawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
 
-			// If out of range, move towards spawn
-			if (withdraw == ERR_NOT_IN_RANGE) {
-				creep.moveTo(spawn, { visualizePathStyle });
+				// Only pick up energy if spawn is full
+				if (!options.shouldWithdrawSpawner) {
+					// Don't wait adjacent to spawner in an effort to not block other creeps
+					if (creep.pos.getRangeTo(spawn) > 2) return creep.moveTo(spawn, { visualizePathStyle });
+					else if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
+					else return;
+				}
+
+				const withdraw = creep.withdraw(spawn, RESOURCE_ENERGY);
+
+				// If out of range, move towards spawn
+				if (withdraw == ERR_NOT_IN_RANGE) {
+					creep.moveTo(spawn, { visualizePathStyle });
+				}
 			}
 		}
 	}
