@@ -16,7 +16,7 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		watch: {
 			scripts: {
-				files: 'src/*.js',
+				files: 'src/**/*.js',
 				tasks: ['clean', 'copy:screeps', 'replace:screeps', 'screeps'],
 				options: {
 					interrupt: true,
