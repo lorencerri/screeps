@@ -6,7 +6,7 @@ const Tower = {
 		});
 
 		const closestDamagedWall = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-			filter: (s) => s.hits < s.hitsMax && s.structureType == STRUCTURE_WALL && hits < 1000
+			filter: (s) => s.hits < s.hitsMax && s.structureType == STRUCTURE_WALL && s.hits <= 1000
 		});
 
 		// If found, repair
