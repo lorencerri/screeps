@@ -16,14 +16,14 @@ const Config = {
 		}
 	},
 	builder: {
-		max: 4,
+		max: 3,
 		parts: {
 			base: [WORK, CARRY, MOVE],
 			add: [WORK, CARRY, CARRY]
 		}
 	},
 	courier: {
-		max: 8,
+		max: 7,
 		parts: {
 			base: [MOVE, CARRY, CARRY, CARRY],
 			add: [CARRY]
