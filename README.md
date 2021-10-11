@@ -7,6 +7,7 @@ My personal AI that I'm developing for the Screeps: World game.
 **Notes**
 
 - Couriers should act as transport belts
+- Couriers should evenly distribute energy between containers. When idle, they should find the closest highest filled, and the closest lowest filled, making them even.
 
 **TODO**
 
