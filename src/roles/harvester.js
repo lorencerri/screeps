@@ -19,7 +19,7 @@ const Harvester = {
 			creep.say(harvest);
 		} else {
 			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) => s.structureType === STRUCTURE_CONTAINER && s.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+				filter: (s) => s.structureType === STRUCTURE_CONTAINER && s.store.getFreeCapacity(RESOURCE_ENERGY) > 0 && creep.pos.getRangeTo(s) <= 5
 			});
 
 			// Determine which structure to deposit energy

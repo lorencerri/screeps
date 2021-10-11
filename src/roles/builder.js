@@ -14,7 +14,8 @@ const Builder = {
 
 		// Handle building
 		if (creep.memory.building) {
-			const target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+			//const target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+			const target = null;
 			if (target) {
 				const build = creep.build(target);
 				if (build == ERR_NOT_IN_RANGE) {
@@ -25,15 +26,15 @@ const Builder = {
 			} else {
 				// Start repairing when idling
 				// Find closest damaged structure
-				const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-					filter: (s) => structure.hits < structure.hitsMax
+				const closestDamagedContainer = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+					filter: (s) => s.hits < s.hitsMax && s.structureType === STRUCTURE_CONTAINER
 				});
 
 				// If found, repair
-				if (closestDamagedStructure) {
-					const repair = tower.repair(closestDamagedStructure);
+				if (closestDamagedContainer) {
+					const repair = creep.repair(closestDamagedContainer);
 					if (repair == ERR_NOT_IN_RANGE) {
-						creep.moveTo(target, {
+						creep.moveTo(closestDamagedContainer, {
 							visualizePathStyle
 						});
 					}

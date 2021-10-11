@@ -2,7 +2,7 @@ const Tower = {
 	run: function (tower) {
 		// Find closest damaged structure
 		const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-			filter: (s) => structure.hits < structure.hitsMax
+			filter: (s) => s.hits < s.hitsMax
 		});
 
 		// If found, repair
