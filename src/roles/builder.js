@@ -19,8 +19,24 @@ const Builder = {
 				const build = creep.build(target);
 				if (build == ERR_NOT_IN_RANGE) {
 					creep.moveTo(target, {
-						visualizePathStyle: { stroke: '#ffffff' }
+						visualizePathStyle
 					});
+				}
+			} else {
+				// Start repairing when idling
+				// Find closest damaged structure
+				const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+					filter: (s) => structure.hits < structure.hitsMax
+				});
+
+				// If found, repair
+				if (closestDamagedStructure) {
+					const repair = tower.repair(closestDamagedStructure);
+					if (repair == ERR_NOT_IN_RANGE) {
+						creep.moveTo(target, {
+							visualizePathStyle
+						});
+					}
 				}
 			}
 		} else {
