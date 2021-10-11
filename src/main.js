@@ -4,6 +4,7 @@ const Harvester = require('./roles/harvester');
 const Upgrader = require('./roles/upgrader');
 const Builder = require('./roles/builder');
 const Courier = require('./roles/courier');
+const Tower = require('./structures/tower');
 
 const typesToEnergy = {
 	WORK: 100,
@@ -98,6 +99,15 @@ module.exports.loop = function () {
 			Builder.run(creep, { shouldWithdrawSpawner });
 		} else if (creep.memory.role === 'upgrader') {
 			Upgrader.run(creep, { shouldWithdrawSpawner });
+		}
+	}
+
+	// Iterate through all structures
+	for (const name in Game.structures) {
+		const structure = Game.structures[name];
+
+		if (structure.structureType === STRUCTURE_TOWER) {
+			Tower.run(structure);
 		}
 	}
 
