@@ -1,9 +1,9 @@
 const _ = require('lodash');
 const Config = require('config');
-const Harvester = require('role.harvester');
-const Upgrader = require('role.upgrader');
-const Builder = require('role.builder');
-const Courier = require('role.courier');
+const Harvester = require('./roles/harvester');
+const Upgrader = require('./roles/upgrader');
+const Builder = require('./roles/builder');
+const Courier = require('./roles/courier');
 
 const typesToEnergy = {
 	WORK: 100,

@@ -1,4 +1,4 @@
-const { getOppositeDirection } = require('helpers');
+const { getOppositeDirection } = require('../helpers');
 const visualizePathStyle = { stroke: '#ffffff' };
 
 const Upgrader = {

@@ -117,4 +117,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Project
 package-lock.json
+.screeps.json
