@@ -14,8 +14,7 @@ const Builder = {
 
 		// Handle building
 		if (creep.memory.building) {
-			//const target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
-			const target = null;
+			const target = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
 			if (target) {
 				const build = creep.build(target);
 				if (build == ERR_NOT_IN_RANGE) {
