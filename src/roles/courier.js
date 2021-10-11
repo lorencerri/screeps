@@ -1,3 +1,5 @@
+const { getOppositeDirection } = require('../helpers');
+
 const visualizePathStyle = { stroke: '#ffffff' };
 
 const Courier = {
@@ -50,6 +52,8 @@ const Courier = {
 					s.structureType == STRUCTURE_CONTAINER && s.store.getUsedCapacity(RESOURCE_ENERGY) > 0 && !s.pos.inRangeTo(creep.room.controller, 3)
 			});
 
+			const spawn = Game.spawns['Spawn1'];
+
 			if (container) {
 				// If container is found, move to it and withdraw energy
 				const withdraw = creep.withdraw(container, RESOURCE_ENERGY);
@@ -59,7 +63,11 @@ const Courier = {
 					creep.moveTo(container, {
 						visualizePathStyle
 					});
+				} else {
+					if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
 				}
+			} else {
+				if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
 			}
 		}
 	}
