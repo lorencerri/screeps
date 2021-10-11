@@ -4,7 +4,7 @@
 	"description": "My personal AI that I'm developing for the Screeps: World game.",
 	"main": "main.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "grunt watch"
 	},
 	"repository": {
 		"type": "git",
