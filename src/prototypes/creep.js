@@ -42,19 +42,23 @@ Creep.prototype.getRoleColor = function () {
  * - The closest non-empty structure should be used
  * - If there are available containers, spawners should not be used
  * - The container in close proximity to the controller should not be used
+ *
+ * v2.0 Requirements:
+ * - Creeps should only be able to withdraw from a container if there's enough inside for everyone going towards it to fill up completely
  */
 Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_ENERGY) {
-	return (
-		// Priority 1: Containers
-		this.pos.findClosestByPath(FIND_STRUCTURES, {
-			filter: (s) =>
-				s.structureType === STRUCTURE_CONTAINER && // It is a container
-				s.store.getUsedCapacity(resourceType) > 0 && // It has some resources
-				s.getType() === 'WITHDRAW' // It is further than 3 tiles away from the controller
-		}) ||
-		// Priority 2: Spawns
-		this.pos.findClosestByPath(FIND_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_SPAWN && s.store.getUsedCapacity(resourceType) > 0 })
-	);
+	const priority = this.pos.findClosestByPath(FIND_STRUCTURES, {
+		filter: (s) =>
+			s.structureType === STRUCTURE_CONTAINER && // It is a container
+			s.store.getUsedCapacity(resourceType) > 0 && // It has some resources
+			s.getType() === 'WITHDRAW' // It is further than 3 tiles away from the controller
+	});
+	if (priority) return priority;
+
+	const secondary = this.pos.findClosestByPath(FIND_STRUCTURES, {
+		filter: (s) => s.structureType === STRUCTURE_SPAWN && s.store.getUsedCapacity(resourceType) > 0
+	});
+	return secondary;
 };
 
 /***
@@ -70,14 +74,13 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 		this.pos.findClosestByPath(FIND_STRUCTURES, {
 			filter: (s) =>
 				// TODO: The 'if courier exists' part should encapsulate the entire structure types list.
-				// TODO: This should really be rewritten into a function instead of a bunch of operators
+				// TODO: This should really be rewritten into a function instead of a bunch of ternary operators
 				(s.structureType === STRUCTURE_SPAWN || // It can be a spawn
 					s.structureType === STRUCTURE_EXTENSION || // It can be an extension
 					(this.memory.role === 'harvester' // If it's a harvester, add the following conditions for containers
-						? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
-								s.structureType === STRUCTURE_CONTAINER && // It can be a container
-								s.getType() === 'DEPOSIT') ||
-						  s.structureType === STRUCTURE_CONTAINER
+						? Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
+						  s.structureType === STRUCTURE_CONTAINER && // It can be a container
+						  s.getType() === 'DEPOSIT'
 						: s.structureType === STRUCTURE_CONTAINER && s.getType() === 'DEPOSIT')) && // Otherwise, it can be a container
 				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
 		}) ||
