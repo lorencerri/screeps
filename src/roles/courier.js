@@ -28,7 +28,7 @@ const Courier = {
 			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
 				filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)
 			});
-			console.log(target);
+
 			// If target is available, transfer energy
 			if (target) {
 				const transfer = creep.transfer(target, RESOURCE_ENERGY);
