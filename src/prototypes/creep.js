@@ -51,10 +51,33 @@ Creep.prototype.getRoleColor = function () {
  */
 Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_ENERGY) {
 	const priority = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: (s) =>
-			s.structureType === STRUCTURE_CONTAINER && // It is a container
-			s.store.getUsedCapacity(resourceType) > 0 && // It has some resources
-			s.getType() === 'WITHDRAW' // It is further than 3 tiles away from the controller
+		filter: (s) => {
+			if (s.structureType !== STRUCTURE_CONTAINER) return false;
+			if (s.store.getUsedCapacity(resourceType) === 0) return false;
+			if (s.getType() !== 'WITHDRAW') return false;
+
+			// Get all creeps going towards this container
+			const creeps = Object.values(Game.creeps).filter((c) => c.memory.targetId === s.id);
+
+			// Get remaining resources in the container
+			const remainingResources = s.store.getUsedCapacity(resourceType);
+			let going = 0;
+
+			console.log('=== WIP Container Logic ===');
+			console.log(`Container ${s.id} has ${remainingResources} ${resourceType}:`);
+
+			// Iterate through creeps
+			for (const creep of creeps) {
+				console.log(`${creep.name} will remove ${creep.store.getFreeCapacity(resourceType)}`);
+				going += creep.store.getFreeCapacity(resourceType);
+			}
+
+			console.log(`${going} >= ${remainingResources}, so creep ${going >= remainingResources ? 'should not' : 'should'} target.`);
+			console.log('=== WIP Container Logic ===');
+
+			if (going >= remainingResources) return false;
+			return true;
+		}
 	});
 	if (priority) return priority;
 
