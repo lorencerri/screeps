@@ -31,6 +31,7 @@ My personal AI that I'm developing for the Screeps: World game.
 - [ ] Automatically determine wether a chest is import or export using heuristics
 - [ ] Generate a map of where energy is needed the most
 - [ ] Automatically run scripts based on level of the room
+- [ ] Have creep roles spawn in a round-robin style system
 
 **Known Issues**
 
