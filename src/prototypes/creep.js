@@ -137,3 +137,16 @@ Creep.prototype.generalTasks = function () {
 		this.moveTo(this.room.findClosestByPath(FIND_STRUCTURES, { filter: (s) => s.structureType === isStuck }));
 	}
 };
+
+/***
+ * Returns closest repairable structure
+ */
+Creep.prototype.getClosestRepairStructure = function () {
+	return this.pos.findClosestByPath(FIND_STRUCTURES, {
+		filter: (s) => {
+			let max = s.hitsMax;
+			if (s.structureType === STRUCTURE_WALL) max = 1000;
+			return s.hits < max;
+		}
+	});
+};
