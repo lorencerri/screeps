@@ -45,7 +45,7 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 			filter: (s) =>
 				(s.structureType == STRUCTURE_SPAWN || // It can be a spawn
 					s.structureType == STRUCTURE_EXTENSION || // It can be an extension
-					(this.memory.role == 'harvester' // If it's a harvester, run the following
+					(this.memory.role == 'harvester' // If it's a harvester, add the following conditions for containers
 						? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
 								s.structureType == STRUCTURE_CONTAINER && // It can be a container
 								this.pos.getRangeTo(s) <= 3) || // But only if it's far away
