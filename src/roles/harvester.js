@@ -15,7 +15,10 @@ const Harvester = {
 			if (!creep.pos.isNearTo(source)) creep.moveTo(source);
 
 			// If near, harvest
-			creep.harvest(source);
+			const harvestCode = creep.harvest(source);
+
+			// If harvest is not OK, display code
+			if (harvestCode !== OK) creep.say(harvestCode);
 
 			// If full, toggle depositing flag
 			if (creep.store.getFreeCapacity() === 0) creep.toggleDepositing();
@@ -33,7 +36,10 @@ const Harvester = {
 			if (!creep.pos.isNearTo(structure)) creep.moveTo(structure);
 
 			// If near, deposit energy
-			creep.transfer(structure, RESOURCE_ENERGY);
+			const transferCode = creep.transfer(structure, RESOURCE_ENERGY);
+
+			// If transfer is not OK, display code
+			if (transferCode !== OK) creep.say(transferCode);
 		}
 	}
 };
