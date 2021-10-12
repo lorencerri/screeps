@@ -40,9 +40,8 @@ Creep.prototype.getRoleColor = function () {
  */
 Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_ENERGY) {
 	return (
-		// Priority 1: Spawn, extension, containers
+		// Priority 1: Spawns, extensions, containers
 		this.pos.findClosestByPath(FIND_STRUCTURES, {
-			// WARN: The issue is that they may try to go to spawn when there IS a courier and their local container is full
 			filter: (s) =>
 				(s.structureType == STRUCTURE_SPAWN || // It can be a spawn
 					s.structureType == STRUCTURE_EXTENSION || // It can be an extension
@@ -54,7 +53,7 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 						: s.structureType == STRUCTURE_CONTAINER)) && // Otherwise, it can be a container
 				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
 		}) ||
-		// Priority 2: Storage
+		// Priority 2: Towers
 		this.pos.findClosestByPath(FIND_STRUCTURES, {
 			filter: (s) =>
 				s.structureType == STRUCTURE_TOWER && // It can be a tower
