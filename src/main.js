@@ -39,7 +39,7 @@ module.exports.loop = function () {
 
 	// Replenish creeps when they die
 	const prioritized = Object.keys(Config).sort((a, b) => (Config[b].priority || 0) - (Config[a].priority || 0));
-	console.log(prioritized);
+
 	for (let i = 0; i < prioritized.length; i++) {
 		const type = prioritized[i];
 		const role = Config[type];
