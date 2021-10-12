@@ -33,18 +33,30 @@ Creep.prototype.getRoleColor = function () {
 
 /***
  * Returns the closest depositable structure
+ *
+ * Requirements:
+ * - Faraway containers should not be used if there are no couriers
+ * - The closest non-empty structure should be used
  */
 Creep.prototype.getClosestDepositStructure = function () {
-	const deposit = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: (s) => s.structureType === STRUCTURE_CONTAINER && s.store.getFreeCapacity() > 0
+	return this.pos.findClosestByPath(FIND_STRUCTURES, {
+		filter: (s) =>
+			s.structureType === STRUCTURE_SPAWN ||
+			s.structureType === STRUCTURE_EXTENSION ||
+			s.structureType === STRUCTURE_TOWER ||
+			this.memory.role === 'harvester'
+				? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') &&
+						s.structureType === STRUCTURE_CONTAINER &&
+						this.pos.getRangeTo(s) <= 3) ||
+				  (s.structureType === STRUCTURE_CONTAINER && this.pos.getRangeTo(s) > 3)
+				: s.structureType === STRUCTURE_CONTAINER && s.store.getFreeCapacity() > 0
 	});
-	return deposit;
 };
 
 /***
  * Toggles whether or not the creep is depositing resources
  */
-Creep.prototype.switchDepositing = function () {
+Creep.prototype.toggleDepositing = function () {
 	if (this.memory.depositing) {
 		console.log(`[${this.name}] No longer depositing...`);
 		this.memory.depositing = false;
