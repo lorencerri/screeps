@@ -17,7 +17,7 @@ Creep.prototype.assignSource = function () {
 Creep.prototype._moveTo = Creep.prototype.moveTo;
 Creep.prototype.moveTo = function (target, opts = {}) {
 	this.memory.targetId = target.id;
-	this._moveTo(target, { visualizePathStyle: opts.visualizePathStyle || { stroke: this.getRoleColor() } });
+	this._moveTo(target, { reusePath: 25, visualizePathStyle: opts.visualizePathStyle || { stroke: this.getRoleColor() } });
 };
 
 /***
