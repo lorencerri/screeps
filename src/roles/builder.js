@@ -14,7 +14,10 @@ const Builder = {
 				const repair = creep.getClosestRepairStructure();
 
 				// If no repair structure, return
-				if (!repair) return console.log(`[${creep.name}] No repairable structure found`);
+				if (!repair) {
+					creep.memory.idle = true;
+					return console.log(`[${creep.name}] No repairable structure found`);
+				} else creep.memory.idle = false;
 
 				// If not near, move to repair structure
 				if (!creep.pos.isNearTo(repair)) return creep.moveTo(repair);
@@ -39,7 +42,10 @@ const Builder = {
 			const structure = creep.getClosestWithdrawStructure();
 
 			// If no structure found, return
-			if (!structure) return console.log(`[${creep.name}] No structure found`);
+			if (!structure) {
+				creep.memory.idle = true;
+				return console.log(`[${creep.name}] No structure found`);
+			} else creep.memory.idle = false;
 
 			// If not near, move to structure
 			if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);

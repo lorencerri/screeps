@@ -104,39 +104,35 @@ Creep.prototype.toggle = function (flag) {
 };
 
 /***
- * Returns if a creep is stuck
- *
- * Reasoning: If a creep is unable to access either the spawn or
- * controller, it means there is a bottleneck blocking traffic
- *
- * If stuck, this method returns the structure the creep should go towards to get unstuck,
- * otherwise, it will return null
- */
-Creep.prototype.isStuck = function () {
-	if (
-		!this.pos.findClosestByPath(FIND_STRUCTURES, {
-			filter: (s) => s.structureType === STRUCTURE_SPAWN
-		})
-	)
-		return STRUCTURE_CONTROLLER;
-	else if (
-		!this.pos.findClosestByPath(FIND_STRUCTURES, {
-			filter: (s) => s.structureType === STRUCTURE_CONTROLLER
-		})
-	)
-		return STRUCTURE_SPAWN;
-	else return null;
-};
-
-/***
  * General logic tasks for creeps at the beginning of each tick
  *
  */
 Creep.prototype.generalTasks = function () {
-	const isStuck = this.isStuck();
-	if (isStuck) {
-		console.log(`[${creep.name}] STUCK! Moving towards ${isStuck}`);
-		this.moveTo(this.room.findClosestByPath(FIND_STRUCTURES, { filter: (s) => s.structureType === isStuck }));
+	// If a creep is idling, make them move 3 tiles away from any structure
+	if (this.memory.idle) {
+		// Find closest structure
+		const structure = creep.pos.findClosestByRange(FIND_STRUCTURES);
+
+		// If there's no nearby structure, return
+		if (!structure) return;
+		else console.log(`[${this.name}] Idle and in the way, moving...`);
+
+		// Determine cardinal direction to structure
+		const direction = creep.pos.getDirectionTo(structure);
+
+		// Determine & move to the direct opposite direction
+		const opposite = Game.getOppositeDirection(direction);
+		creep.move(opposite);
+
+		// Determine & move to the left opposite direction
+		const leftOpposite = opposite - 1;
+		if (leftOpposite === 0) leftOpposite = 8;
+		creep.move(leftOpposite);
+
+		// Determine & move to the right opposite direction
+		const rightOpposite = opposite + 1;
+		if (rightOpposite === 9) rightOpposite = 1;
+		creep.move(rightOpposite);
 	}
 };
 
