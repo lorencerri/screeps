@@ -10,8 +10,6 @@ const Builder = {
 
 			// If no construction, start repairing
 			if (!construction) {
-				console.log(`[${creep.name}] No construction found, repairing instead`);
-
 				// Find the nearest repair structure
 				const repair = creep.getClosestRepairStructure();
 
