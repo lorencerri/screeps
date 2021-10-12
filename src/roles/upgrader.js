@@ -33,6 +33,8 @@ const Upgrader = {
 				// If out of range, move towards spawn
 				if (withdraw == ERR_NOT_IN_RANGE) {
 					creep.moveTo(container, { visualizePathStyle });
+				} else if (withdraw === OK) {
+					creep.memory.upgrading = true;
 				}
 			} else {
 				const spawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
