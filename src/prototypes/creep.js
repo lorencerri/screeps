@@ -68,11 +68,12 @@ Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_
 
 			// Iterate through creeps
 			for (const creep of creeps) {
+				if (creep.id === this.id) continue; // Skip self
 				console.log(`${creep.name} will remove ${creep.store.getFreeCapacity(resourceType)}`);
 				going += creep.store.getFreeCapacity(resourceType);
 			}
 
-			console.log(`${going} >= ${remainingResources}, so creep ${going >= remainingResources ? 'should not' : 'should'} target.`);
+			console.log(`${going} >= ${remainingResources} | This is ${going >= remainingResources ? 'an invalid' : 'a valid'} withdraw container.`);
 			console.log('=== WIP Container Logic ===');
 
 			if (going >= remainingResources) return false;
