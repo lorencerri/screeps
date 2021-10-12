@@ -1,3 +1,5 @@
+// TODO: Remove the need for a config
+
 const Config = {
 	harvester: {
 		priority: 100,

@@ -1,3 +1,5 @@
+// TODO: Rewrite this file, move spawning logic to a logic folder
+
 const _ = require('lodash');
 const Config = require('config');
 const Harvester = require('./roles/harvester');

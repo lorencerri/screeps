@@ -1,3 +1,5 @@
+// TODO: Rewrite tower file
+
 const Tower = {
 	run: function (tower) {
 		// Find closest damaged structure

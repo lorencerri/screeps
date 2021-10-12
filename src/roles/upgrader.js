@@ -1,3 +1,5 @@
+// TODO: Rewrite upgrader file
+
 const { getOppositeDirection } = require('../helpers');
 const visualizePathStyle = { stroke: '#ffffff' };
 
