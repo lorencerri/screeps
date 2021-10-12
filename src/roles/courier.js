@@ -6,6 +6,17 @@ const Courier = {
 			// Find the nearest depositable container
 			const structure = creep.getClosestDepositStructure();
 
+			// If applicable, refill courier
+			if (creep.store.getFreeCapacity() > 0) {
+				// Find the nearest withdrawable container
+				const withdrawStructure = creep.getClosestWithdrawStructure();
+				if (creep.pos.getRangeTo(withdrawStructure) < creep.pos.getRangeTo(structure)) {
+					console.log(`[${creep.name}] Close withdraw station found, refilling instead`);
+					creep.memory.hauling = false;
+					return this.run(creep);
+				}
+			}
+
 			// If no structure found, return
 			if (!structure) {
 				creep.memory.idle = true;

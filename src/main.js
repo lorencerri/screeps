@@ -59,7 +59,7 @@ module.exports.loop = function () {
 			// Determine energy capacity
 			let remainingEnergyCapacity = extensions.length * 50 + 300;
 
-			if (remainingEnergyCapacity > 500) remainingEnergyCapacity = 500;
+			if (type !== 'courier' && remainingEnergyCapacity > 500) remainingEnergyCapacity = 500;
 
 			for (let x = 0; x < role.parts.base.length; x++) {
 				remainingEnergyCapacity -= typesToEnergy[role.parts.base[x].toUpperCase()];
