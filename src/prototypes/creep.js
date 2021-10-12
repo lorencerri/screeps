@@ -48,8 +48,8 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 					(this.memory.role == 'harvester' // If it's a harvester, add the following conditions for containers
 						? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
 								s.structureType == STRUCTURE_CONTAINER && // It can be a container
-								this.pos.getRangeTo(s) <= 3) || // But only if it's far away
-						  (s.structureType == STRUCTURE_CONTAINER && this.pos.getRangeTo(s) > 3) // Otherwise, it has to be the one nearby
+								this.pos.getRangeTo(s) > 3) || // But only if it's far away
+						  (s.structureType == STRUCTURE_CONTAINER && this.pos.getRangeTo(s) <= 3) // Otherwise, it has to be the one nearby
 						: s.structureType == STRUCTURE_CONTAINER)) && // Otherwise, it can be a container
 				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
 		}) ||
