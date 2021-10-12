@@ -35,7 +35,8 @@ My personal AI that I'm developing for the Screeps: World game.
 
 **Known Issues**
 
-- [ ] Multiple creeps will go towards the same source, despite only one mining spot being available
-- [ ] Creeps will still leave the deposit structure even if they only partially cleared their inventory
+- [x] Multiple creeps will go towards the same source, despite only one mining spot being available
+- [x] Creeps will still leave the deposit structure even if they only partially cleared their inventory
+- [ ] Couriers will flip flop between a container that is slowly refilling (empty -> 50) and one that is full because it's being pulled by the slowly refilling one. This can be solved by adding a max amount of couriers that can go to a container based on the amount of energy inside it.
 
 https://gist.github.com/tedivm/53063e46b58ef80e9df1
