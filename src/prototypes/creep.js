@@ -50,7 +50,7 @@ Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_
 			filter: (s) =>
 				s.structureType === STRUCTURE_CONTAINER && // It is a container
 				s.store.getUsedCapacity(resourceType) > 0 && // It has some resources
-				s.type === 'WITHDRAW' // It is further than 3 tiles away from the controller
+				s.getType() === 'WITHDRAW' // It is further than 3 tiles away from the controller
 		}) ||
 		// Priority 2: Spawns
 		this.pos.findClosestByPath(FIND_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_SPAWN && s.store.getUsedCapacity(resourceType) > 0 })
@@ -69,14 +69,15 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 		// Priority 1: Spawns, extensions, containers
 		this.pos.findClosestByPath(FIND_STRUCTURES, {
 			filter: (s) =>
+				// TODO: The 'if courier exists' part should encapsulate the entire structure types list.
+				// TODO: This should really be rewritten into a function instead of a bunch of operators
 				(s.structureType === STRUCTURE_SPAWN || // It can be a spawn
 					s.structureType === STRUCTURE_EXTENSION || // It can be an extension
 					(this.memory.role === 'harvester' // If it's a harvester, add the following conditions for containers
-						? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
-								s.structureType === STRUCTURE_CONTAINER && // It can be a container
-								s.type === 'DEPOSIT') || // But only if it's a deposit container
-						  (s.structureType === STRUCTURE_CONTAINER && ['WITHDRAW', 'STORAGE'].includes(s.type)) // Otherwise, it has to be the one nearby
-						: s.structureType === STRUCTURE_CONTAINER)) && // Otherwise, it can be a container
+						? Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
+						  s.structureType === STRUCTURE_CONTAINER && // It can be a container
+						  s.getType() === 'DEPOSIT'
+						: s.structureType === STRUCTURE_CONTAINER && s.getType() === 'DEPOSIT')) && // Otherwise, it can be a container
 				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
 		}) ||
 		// Priority 2: Towers
@@ -111,7 +112,7 @@ Creep.prototype.generalTasks = function () {
 	// If a creep is idling, make them move 3 tiles away from any structure
 	if (this.memory.idle) {
 		// Find closest structure
-		const structure = this.pos.findClosestByRange(FIND_STRUCTURES);
+		const structure = this.pos.findClosestByRange(FIND_STRUCTURES, { filter: (s) => s.pos !== this.pos });
 
 		// If there's no nearby structure, return
 		if (!structure) return;

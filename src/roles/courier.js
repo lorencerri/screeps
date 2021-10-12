@@ -7,7 +7,10 @@ const Courier = {
 			const structure = creep.getClosestDepositStructure();
 
 			// If no structure found, return
-			if (!structure) return console.log(`[${creep.name}] No structure found`);
+			if (!structure) {
+				creep.memory.idle = true;
+				return console.log(`[${creep.name}] No structure found`);
+			} else creep.memory.idle = false;
 
 			// If not near, move to structure
 			if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);
@@ -25,7 +28,10 @@ const Courier = {
 			const structure = creep.getClosestWithdrawStructure();
 
 			// If no structure found, return
-			if (!structure) return console.log(`[${creep.name}] No structure found`);
+			if (!structure) {
+				creep.memory.idle = true;
+				return console.log(`[${creep.name}] No structure found`);
+			} else creep.memory.idle = false;
 
 			// If not near, move to structure
 			if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);
