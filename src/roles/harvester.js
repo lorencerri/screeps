@@ -12,7 +12,7 @@ const Harvester = {
 			const source = Game.getObjectById(creep.memory.source);
 
 			// If not near, move to source
-			if (!creep.pos.isNearTo(source)) creep.moveTo(source);
+			if (!creep.pos.isNearTo(source)) return creep.moveTo(source);
 
 			// If near, harvest
 			const harvestCode = creep.harvest(source);
@@ -33,7 +33,7 @@ const Harvester = {
 			if (!structure) return console.log(`[${creep.name}] No structure found`);
 
 			// If not near, move to structure
-			if (!creep.pos.isNearTo(structure)) creep.moveTo(structure);
+			if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);
 
 			// If near, deposit energy
 			const transferCode = creep.transfer(structure, RESOURCE_ENERGY);
