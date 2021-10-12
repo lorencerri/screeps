@@ -100,3 +100,40 @@ Creep.prototype.toggle = function (flag) {
 		this.memory[flag] = true;
 	}
 };
+
+/***
+ * Returns if a creep is stuck
+ *
+ * Reasoning: If a creep is unable to access either the spawn or
+ * controller, it means there is a bottleneck blocking traffic
+ *
+ * If stuck, this method returns the structure the creep should go towards to get unstuck,
+ * otherwise, it will return null
+ */
+Creep.prototype.isStuck = function () {
+	if (
+		!this.pos.findClosestByPath(FIND_STRUCTURES, {
+			filter: (s) => s.structureType === STRUCTURE_SPAWN
+		})
+	)
+		return STRUCTURE_CONTROLLER;
+	else if (
+		!this.pos.findClosestByPath(FIND_STRUCTURES, {
+			filter: (s) => s.structureType === STRUCTURE_CONTROLLER
+		})
+	)
+		return STRUCTURE_SPAWN;
+	else return null;
+};
+
+/***
+ * General logic tasks for creeps at the beginning of each tick
+ *
+ */
+Creep.prototype.generalTasks = function () {
+	const isStuck = this.isStuck();
+	if (isStuck) {
+		console.log(`[${creep.name}] STUCK! Moving towards ${isStuck}`);
+		this.moveTo(this.room.findClosestByPath(FIND_STRUCTURES, { filter: (s) => s.structureType === isStuck }));
+	}
+};

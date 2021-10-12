@@ -1,5 +1,7 @@
 const Courier = {
 	run: function (creep) {
+		creep.generalTasks();
+
 		if (creep.memory.hauling) {
 			// Find the nearest depositable container
 			const structure = creep.getClosestDepositStructure();
