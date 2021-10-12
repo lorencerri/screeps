@@ -25,7 +25,7 @@ const Config = {
 		}
 	},
 	courier: {
-		max: 6,
+		max: 8,
 		priority: 10,
 		parts: {
 			base: [MOVE, CARRY, CARRY, CARRY],
