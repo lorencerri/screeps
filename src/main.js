@@ -130,6 +130,5 @@ module.exports.loop = function () {
     const bestOrder = _.max(orders, (order) => order.price);*/
 
 	// If your excess CPU bucket is full, use 10000 CPU to generate a pixel
-	console.log(`[Main] Your bucket currently has ${Game.cpu.bucket}/10000 excess CPU required to generate a pixel.`);
 	if (Game.cpu.bucket >= 10000) Game.cpu.generatePixel();
 };
