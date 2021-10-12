@@ -14,17 +14,25 @@ const Harvester = {
 			// If not near, move to source
 			if (!creep.pos.isNearTo(source)) creep.moveTo(source);
 
+			// If near, harvest
 			creep.harvest(source);
 
+			// If full, toggle depositing flag
 			if (creep.store.getFreeCapacity() === 0) creep.toggleDepositing();
 		} else {
+			// If empty, toggle depositing flag
 			if (creep.store.getUsedCapacity() === 0) creep.toggleDepositing();
 
+			// Get the closest depositable structure
 			const structure = creep.getClosestDepositStructure();
+
+			// If no structure found, return
 			if (!structure) return console.log(`[${creep.name}] No structure found`);
 
+			// If not near, move to structure
 			if (!creep.pos.isNearTo(structure)) creep.moveTo(structure);
 
+			// If near, deposit energy
 			creep.transfer(structure, RESOURCE_ENERGY);
 		}
 	}
