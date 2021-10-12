@@ -120,6 +120,8 @@ Creep.prototype.generalTasks = function () {
 		// Determine cardinal direction to structure
 		const direction = this.pos.getDirectionTo(structure);
 
+		// TODO: Determine which of the following three directions is empty
+
 		// Determine & move to the direct opposite direction
 		const opposite = this.getOppositeDirection(direction);
 		this.move(opposite);

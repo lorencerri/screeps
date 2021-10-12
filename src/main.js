@@ -10,6 +10,7 @@ const Tower = require('./structures/tower');
 require('./prototypes/Creep');
 require('./prototypes/StructureContainer');
 
+// TODO: Use BODYPART_COST
 const typesToEnergy = {
 	WORK: 100,
 	CARRY: 50,
