@@ -8,23 +8,22 @@ My personal AI that I'm developing for the Screeps: World game.
 
 - Couriers should act as transport belts
 - Couriers should evenly distribute energy between containers. When idle, they should find the closest highest filled, and the closest lowest filled, making them even.
-- Harvesters should run off the source, not off the creep
 
 **TODO**
 
 - [ ] Build containers next to sources
 - [x] Have couriers run materials from containers to spawn
 - [x] Use Grunt to allow me to make folders and better organize code
-- [ ] Only allow max amount of creeps to go to source based on available spots
+- [x] Only allow max amount of creeps to go to source based on available spots
 - [x] Creeps should have their own part templates
 - [ ] Haul relative to spawn, not creep
-- [ ] Have idle creeps move to a flag
-- [ ] Implement a priority queue for building types (extensions -> containers -> roads)
+- ~~[ ] Have idle creeps move to a flag~~
+- [x] Implement a priority queue for building types (extensions -> containers -> roads)
 - [ ] Implement a road building & repair queue
 - [ ] Automatically place road building orders on frequently traveled paths (possibly by couriers only while not on expeditions)
 - [ ] Implement scout class
 - [ ] Rewrite the parts system of spawning, should allow for every x part put an additional y part
-- [ ] Couriers should go to upgraders
+- [x] Couriers should go to upgraders
 - [ ] If spawn is full, deposit to directly adjacent container
 - [ ] Implement IMPORT, EXPORT, and STORAGE containers, with creeps automatically moving based on a queue
 - [ ] Implement a builder area and an upgrader area
