@@ -28,6 +28,8 @@ Creep.prototype.getRoleColor = function () {
 			return '#964B00';
 		case 'courier':
 			return '#FFFF00';
+		case 'builder':
+			return '#0000FF';
 		default:
 			return '#ffffff';
 	}
