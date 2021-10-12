@@ -39,20 +39,28 @@ Creep.prototype.getRoleColor = function () {
  * - The closest non-empty structure should be used
  */
 Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_ENERGY) {
-	return this.pos.findClosestByPath(FIND_STRUCTURES, {
-		// WARN: The issue is that they may try to go to spawn when there IS a courier and their local container is full
-		filter: (s) =>
-			(s.structureType == STRUCTURE_SPAWN || // It can be a spawn
-				s.structureType == STRUCTURE_EXTENSION || // It can be an extension
-				s.structureType == STRUCTURE_TOWER || // It can be a tower
-				(this.memory.role == 'harvester' // If it's a harvester, run the following
-					? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
-							s.structureType == STRUCTURE_CONTAINER && // It can be a container
-							this.pos.getRangeTo(s) <= 3) || // But only if it's far away
-					  (s.structureType == STRUCTURE_CONTAINER && this.pos.getRangeTo(s) > 3) // Otherwise, it has to be the one nearby
-					: s.structureType == STRUCTURE_CONTAINER)) && // Otherwise, it can be a container
-			s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
-	});
+	return (
+		// Priority 1: Spawn, extension, containers
+		this.pos.findClosestByPath(FIND_STRUCTURES, {
+			// WARN: The issue is that they may try to go to spawn when there IS a courier and their local container is full
+			filter: (s) =>
+				(s.structureType == STRUCTURE_SPAWN || // It can be a spawn
+					s.structureType == STRUCTURE_EXTENSION || // It can be an extension
+					(this.memory.role == 'harvester' // If it's a harvester, run the following
+						? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
+								s.structureType == STRUCTURE_CONTAINER && // It can be a container
+								this.pos.getRangeTo(s) <= 3) || // But only if it's far away
+						  (s.structureType == STRUCTURE_CONTAINER && this.pos.getRangeTo(s) > 3) // Otherwise, it has to be the one nearby
+						: s.structureType == STRUCTURE_CONTAINER)) && // Otherwise, it can be a container
+				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
+		}) ||
+		// Priority 2: Storage
+		this.pos.findClosestByPath(FIND_STRUCTURES, {
+			filter: (s) =>
+				s.structureType == STRUCTURE_TOWER && // It can be a tower
+				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
+		})
+	);
 };
 
 /***
