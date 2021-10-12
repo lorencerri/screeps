@@ -111,28 +111,28 @@ Creep.prototype.generalTasks = function () {
 	// If a creep is idling, make them move 3 tiles away from any structure
 	if (this.memory.idle) {
 		// Find closest structure
-		const structure = creep.pos.findClosestByRange(FIND_STRUCTURES);
+		const structure = this.pos.findClosestByRange(FIND_STRUCTURES);
 
 		// If there's no nearby structure, return
 		if (!structure) return;
 		else console.log(`[${this.name}] Idle and in the way, moving...`);
 
 		// Determine cardinal direction to structure
-		const direction = creep.pos.getDirectionTo(structure);
+		const direction = this.pos.getDirectionTo(structure);
 
 		// Determine & move to the direct opposite direction
-		const opposite = Game.getOppositeDirection(direction);
-		creep.move(opposite);
+		const opposite = this.getOppositeDirection(direction);
+		this.move(opposite);
 
 		// Determine & move to the left opposite direction
 		const leftOpposite = opposite - 1;
 		if (leftOpposite === 0) leftOpposite = 8;
-		creep.move(leftOpposite);
+		this.move(leftOpposite);
 
 		// Determine & move to the right opposite direction
 		const rightOpposite = opposite + 1;
 		if (rightOpposite === 9) rightOpposite = 1;
-		creep.move(rightOpposite);
+		this.move(rightOpposite);
 	}
 };
 
@@ -147,4 +147,20 @@ Creep.prototype.getClosestRepairStructure = function () {
 			return s.hits < max;
 		}
 	});
+};
+
+/***
+ * Returns the opposite cardinal direction
+ */
+Creep.prototype.getOppositeDirection = function (direction) {
+	return {
+		TOP: BOTTOM,
+		TOP_RIGHT: BOTTOM_LEFT,
+		RIGHT: LEFT,
+		BOTTOM_RIGHT: TOP_LEFT,
+		BOTTOM: TOP,
+		BOTTOM_LEFT: TOP_RIGHT,
+		LEFT: RIGHT,
+		TOP_LEFT: BOTTOM_RIGHT
+	}[direction];
 };
