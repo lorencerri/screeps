@@ -26,6 +26,8 @@ Creep.prototype.getRoleColor = function () {
 	switch (this.memory.role) {
 		case 'harvester':
 			return '#964B00';
+		case 'courier':
+			return '#FFFF00';
 		default:
 			return '#ffffff';
 	}
