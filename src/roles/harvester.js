@@ -1,57 +1,31 @@
-const visualizePathStyle = { stroke: '#ffffff' };
-
 const Harvester = {
 	run: function (creep) {
-		// If creep's inventory is empty, start harvesting
-		if (creep.store.getFreeCapacity() > 0) {
-			// Find closest source
-			const source = creep.pos.findClosestByPath(FIND_SOURCES, { filter: (s) => s.energy > 0 });
+		// If no source, run setup methods
+		if (!creep.memory.source) {
+			creep.assignSource();
+			if (!creep.memory.source) return;
+		}
 
-			// Attempt to harvest source
-			const harvest = creep.harvest(source);
+		// If remaining harvest, harvest
+		if (!creep.memory.depositing) {
+			// Navigate to assigned source
+			const source = Game.getObjectById(creep.memory.source);
 
-			// If out of range, move towards source
-			if (harvest === ERR_NOT_IN_RANGE) {
-				creep.moveTo(source, {
-					visualizePathStyle
-				});
-			}
-			creep.say(harvest);
+			// If not near, move to source
+			if (!creep.pos.isNearTo(source)) creep.moveTo(source);
+
+			creep.harvest(source);
+
+			if (creep.store.getFreeCapacity() === 0) creep.toggleDepositing();
 		} else {
-			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) => s.structureType === STRUCTURE_CONTAINER && s.store.getFreeCapacity(RESOURCE_ENERGY) > 0 && creep.pos.getRangeTo(s) <= 5
-			});
+			if (creep.store.getUsedCapacity() === 0) creep.toggleDepositing();
 
-			// Determine which structure to deposit energy
-			const targets = creep.room.find(FIND_STRUCTURES, {
-				filter: (structure) => {
-					return (
-						(structure.structureType === STRUCTURE_EXTENSION ||
-							structure.structureType === STRUCTURE_SPAWN ||
-							structure.structureType === STRUCTURE_TOWER) &&
-						structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
-					);
-				}
-			});
+			const structure = creep.getClosestDepositStructure();
+			if (!structure) return console.log(`[${creep.name}] No structure found`);
 
-			// Prioritize container over targets
-			const target = container || targets[0];
+			if (!creep.pos.isNearTo(structure)) creep.moveTo(structure);
 
-			// If target is available, transfer energy
-			if (target) {
-				const transfer = creep.transfer(target, RESOURCE_ENERGY);
-
-				// If out of range, move towards spawn
-				if (transfer === ERR_NOT_IN_RANGE) {
-					creep.moveTo(target, {
-						visualizePathStyle
-					});
-				}
-
-				creep.say(transfer);
-			} else {
-				creep.say(ERR_FULL);
-			}
+			creep.transfer(structure, RESOURCE_ENERGY);
 		}
 	}
 };

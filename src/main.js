@@ -6,6 +6,9 @@ const Builder = require('./roles/builder');
 const Courier = require('./roles/courier');
 const Tower = require('./structures/tower');
 
+// Prototypes
+require('./prototypes/creep');
+
 const typesToEnergy = {
 	WORK: 100,
 	CARRY: 50,
@@ -18,6 +21,11 @@ const typesToEnergy = {
 };
 
 module.exports.loop = function () {
+	// Delete old creeps from memory
+	for (let name in Memory.creeps) {
+		if (!Game.creeps[name]) delete Memory.creeps[name];
+	}
+
 	const spawn = Game.spawns['Spawn1'];
 
 	const extensions = spawn.room.find(FIND_STRUCTURES, {
@@ -30,7 +38,8 @@ module.exports.loop = function () {
 		(extensions.every((structure) => structure.store.getFreeCapacity(RESOURCE_ENERGY) === 0) && spawn.store.getFreeCapacity(RESOURCE_ENERGY) === 0);
 
 	// Replenish creeps when they die
-	const prioritized = Object.keys(Config).sort((a, b) => Config[b].priority || 0 - Config[a].priority || 0);
+	const prioritized = Object.keys(Config).sort((a, b) => (Config[b].priority || 0) - (Config[a].priority || 0));
+	console.log(prioritized);
 	for (let i = 0; i < prioritized.length; i++) {
 		const type = prioritized[i];
 		const role = Config[type];

@@ -20,8 +20,7 @@ const Courier = {
 					return (
 						(s.structureType === STRUCTURE_EXTENSION ||
 							(s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)) ||
-							s.structureType === STRUCTURE_SPAWN ||
-							s.structureType === STRUCTURE_TOWER) &&
+							s.structureType === STRUCTURE_SPAWN) &&
 						s.store.getFreeCapacity(RESOURCE_ENERGY) > 0
 					);
 				}
