@@ -7,7 +7,8 @@ const Courier = require('./roles/courier');
 const Tower = require('./structures/tower');
 
 // Prototypes
-require('./prototypes/creep');
+require('./prototypes/Creep');
+require('./prototypes/StructureContainer');
 
 const typesToEnergy = {
 	WORK: 100,
@@ -54,6 +55,8 @@ module.exports.loop = function () {
 
 			// Determine energy capacity
 			let remainingEnergyCapacity = extensions.length * 50 + 300;
+
+			if (type === 'harvester' && remainingEnergyCapacity > 500) remainingEnergyCapacity = 500;
 
 			for (let x = 0; x < role.parts.base.length; x++) {
 				remainingEnergyCapacity -= typesToEnergy[role.parts.base[x].toUpperCase()];

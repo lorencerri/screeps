@@ -1,73 +1,35 @@
-const { getOppositeDirection } = require('../helpers');
-
-const visualizePathStyle = { stroke: '#ffffff' };
-
 const Courier = {
-	run: function (creep, options) {
-		// Handle hauling state
-		if (creep.memory.hauling && creep.store[RESOURCE_ENERGY] == 0) {
-			creep.memory.hauling = false;
-		}
-		if (!creep.memory.hauling && creep.store.getFreeCapacity() == 0) {
-			creep.memory.hauling = true;
-		}
-
-		// Handle hauling
+	run: function (creep) {
 		if (creep.memory.hauling) {
-			// Determine closest depleted energy storage
-			const target = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) => {
-					return (
-						(s.structureType === STRUCTURE_EXTENSION ||
-							(s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)) ||
-							s.structureType === STRUCTURE_SPAWN) &&
-						s.store.getFreeCapacity(RESOURCE_ENERGY) > 0
-					);
-				}
-			});
-			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)
-			});
+			// Find the nearest depositable container
+			const structure = creep.getClosestDepositStructure();
 
-			// If target is available, transfer energy
-			if (target) {
-				const transfer = creep.transfer(target, RESOURCE_ENERGY);
+			// If no structure found, return
+			if (!structure) return console.log(`[${creep.name}] No structure found`);
 
-				// If out of range, move towards spawn
-				if (transfer === ERR_NOT_IN_RANGE) {
-					creep.moveTo(target, {
-						visualizePathStyle
-					});
-				} else if (transfer === ERR_FULL) {
-					creep.say('Target is full!');
-				}
-			} else {
-				creep.say('Full!');
-			}
+			// If not near, move to structure
+			if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);
+
+			// Deposit into structure
+			creep.transfer(structure, RESOURCE_ENERGY);
+
+			// If empty, toggle hauling flag
+			if (creep.store.getUsedCapacity() === 0) creep.toggle('hauling');
 		} else {
-			// Find closest non-empty container
-			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) =>
-					s.structureType == STRUCTURE_CONTAINER && s.store.getUsedCapacity(RESOURCE_ENERGY) > 0 && !s.pos.inRangeTo(creep.room.controller, 3)
-			});
+			// If full, toggle hauling flag
+			if (creep.store.getFreeCapacity() === 0) creep.toggle('hauling');
 
-			const spawn = Game.spawns['Spawn1'];
+			// Find the nearest withdrawable container
+			const structure = creep.getClosestWithdrawStructure();
 
-			if (container) {
-				// If container is found, move to it and withdraw energy
-				const withdraw = creep.withdraw(container, RESOURCE_ENERGY);
+			// If no structure found, return
+			if (!structure) return console.log(`[${creep.name}] No structure found`);
 
-				// If out of range, move towards container
-				if (withdraw == ERR_NOT_IN_RANGE) {
-					creep.moveTo(container, {
-						visualizePathStyle
-					});
-				} else {
-					if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
-				}
-			} else {
-				if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
-			}
+			// If not near, move to structure
+			if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);
+
+			// Withdraw from structure
+			creep.withdraw(structure, RESOURCE_ENERGY);
 		}
 	}
 };

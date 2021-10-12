@@ -21,10 +21,10 @@ const Harvester = {
 			if (harvestCode !== OK) creep.say(harvestCode);
 
 			// If full, toggle depositing flag
-			if (creep.store.getFreeCapacity() === 0) creep.toggleDepositing();
+			if (creep.store.getFreeCapacity() === 0) creep.toggle('depositing');
 		} else {
 			// If empty, toggle depositing flag
-			if (creep.store.getUsedCapacity() === 0) creep.toggleDepositing();
+			if (creep.store.getUsedCapacity() === 0) return creep.toggle('depositing');
 
 			// Get the closest depositable structure
 			const structure = creep.getClosestDepositStructure();
