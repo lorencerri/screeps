@@ -178,7 +178,7 @@ Creep.prototype.getClosestRepairStructure = function () {
 	return this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) => {
 			let max = s.hitsMax;
-			if (s.structureType === STRUCTURE_WALL) max = 1000;
+			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 1000;
 			return s.hits < max;
 		}
 	});
