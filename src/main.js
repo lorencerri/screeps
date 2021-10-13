@@ -67,7 +67,7 @@ module.exports.loop = function () {
 			let remainingEnergyCapacity = extensions.length * 50 + 300;
 
 			if (Object.keys(Game.creeps).length === 0) remainingEnergyCapacity = 300;
-			if (type === 'harvester' && remainingEnergyCapacity > 500) remainingEnergyCapacity = 500;
+			if (type === 'harvester' && remainingEnergyCapacity > 400) remainingEnergyCapacity = 400;
 
 			for (let x = 0; x < role.parts.base.length; x++) {
 				remainingEnergyCapacity -= typesToEnergy[role.parts.base[x].toUpperCase()];
