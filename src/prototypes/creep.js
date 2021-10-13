@@ -156,6 +156,8 @@ Creep.prototype.generalTasks = function () {
 			filter: (s) => s.pos !== this.pos && [STRUCTURE_CONTROLLER, STRUCTURE_SPAWN, STRUCTURE_CONTAINER].includes(s.structureType)
 		});
 
+		return; // TODO: Fix this, it makes them stuck next to containers
+
 		// If there's no nearby structure, return
 		if (!structure) return;
 		else console.log(`[${this.name}] Idle and in the way, moving...`);
