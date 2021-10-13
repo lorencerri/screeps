@@ -103,7 +103,9 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 				// TODO: The 'if courier exists' part should encapsulate the entire structure types list.
 				// TODO: This should really be rewritten into a function instead of a bunch of operators
 				(s.structureType === STRUCTURE_SPAWN || // It can be a spawn
-					s.structureType === STRUCTURE_EXTENSION || // It can be an extension
+					(this.memory.role === 'courier'
+						? s.structureType === STRUCTURE_EXTENSION && this.memory.canRefillExtensions
+						: s.structureType === STRUCTURE_EXTENSION) || // It can be an extension
 					(this.memory.role === 'harvester' // If it's a harvester, add the following conditions for containers
 						? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
 								s.structureType === STRUCTURE_CONTAINER && // It can be a container
@@ -169,7 +171,7 @@ Creep.prototype.getClosestRepairStructure = function () {
 	return this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) => {
 			let max = s.hitsMax;
-			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 2000;
+			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 20000;
 			return s.hits < max;
 		}
 	});

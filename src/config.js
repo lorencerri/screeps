@@ -21,7 +21,7 @@ const Config = {
 		max: 3,
 		parts: {
 			base: [WORK, CARRY, MOVE],
-			add: [WORK, CARRY, CARRY]
+			add: [WORK, CARRY, CARRY, MOVE]
 		}
 	},
 	courier: {

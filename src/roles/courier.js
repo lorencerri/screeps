@@ -2,11 +2,19 @@ const Courier = {
 	run: function (creep) {
 		creep.generalTasks();
 
+		// Modifier: Only one courier should be assigned to fill extensions
+		const couriers = Object.values(Game.creeps).filter((c) => c.memory.role === 'courier');
+		const extensionRefillerExists = couriers.find((c) => c.memory.canRefillExtensions);
+		if (!extensionRefillerExists) {
+			console.log(`[${creep.name}] Assigned to refill extensions`);
+			creep.memory.canRefillExtensions = true;
+		}
+
 		if (creep.memory.hauling) {
 			// Find the nearest depositable container
 			const structure = creep.getClosestDepositStructure();
 
-			// If applicable, refill courier
+			/*// If applicable, refill courier
 			if (creep.store.getFreeCapacity() > 0) {
 				// Find the nearest withdrawable container
 				const withdrawStructure = creep.getClosestWithdrawStructure();
@@ -15,7 +23,7 @@ const Courier = {
 					creep.memory.hauling = false;
 					return this.run(creep);
 				}
-			}
+			}*/
 
 			// If no structure found, return
 			if (!structure) {
