@@ -157,8 +157,8 @@ Creep.prototype.generalTasks = function () {
 		});
 
 		// If there's no nearby structure, return
-		if (!structure || !this.pos.isNearTo(structure, 1)) return;
-		else console.log(`[${this.name}] Idle and in the way, moving...`);
+		if (!structure || this.pos.getRangeTo(structure) > 1) return;
+		else console.log(`[${this.name}] Idle and too close to ${structure} (${this.pos.getRangeTo(structure)} tiles), moving...`);
 
 		// Determine cardinal direction to structure
 		const direction = this.pos.getDirectionTo(structure);
@@ -190,7 +190,7 @@ Creep.prototype.getClosestRepairStructure = function () {
 	return this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) => {
 			let max = s.hitsMax;
-			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 5000;
+			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 20000;
 			return s.hits < max;
 		}
 	});

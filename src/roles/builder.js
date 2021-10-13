@@ -25,7 +25,7 @@ const Builder = {
 
 				// If near, repair
 				return creep.repair(repair);
-			}
+			} else creep.memory.idle = false;
 
 			// If not near, move to construction
 			if (!creep.pos.isNearTo(construction)) return creep.moveTo(construction);

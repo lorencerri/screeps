@@ -68,7 +68,7 @@ module.exports.loop = function () {
 
 			if (Object.keys(Game.creeps).length === 0) remainingEnergyCapacity = 300;
 			if (type === 'harvester' && remainingEnergyCapacity > 400) remainingEnergyCapacity = 400;
-
+			console.log(`Spawning ${type} with ${remainingEnergyCapacity} energy.`);
 			for (let x = 0; x < role.parts.base.length; x++) {
 				remainingEnergyCapacity -= typesToEnergy[role.parts.base[x].toUpperCase()];
 			}
