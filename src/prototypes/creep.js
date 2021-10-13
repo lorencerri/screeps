@@ -21,16 +21,6 @@ Creep.prototype.moveTo = function (target, opts = {}) {
 };
 
 /***
- * Withdraws, but makes sure it can't deposit back to the same place
- */
-Creep.prototype._withdraw = Creep.prototype.withdraw;
-Creep.prototype.withdraw = function (target, opts = {}) {
-	const withdraw = this._withdraw(target, opts);
-	if (withdraw === OK) this.memory.lastWithdrawId = target.id;
-	return withdraw;
-};
-
-/***
  * Returns the color of the creep's role
  */
 Creep.prototype.getRoleColor = function () {
@@ -93,7 +83,7 @@ Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_
 	if (priority) return priority;
 
 	const secondary = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: (s) => s.structureType === STRUCTURE_SPAWN && s.store.getUsedCapacity(resourceType) > 0
+		filter: (s) => s.structureType === STRUCTURE_SPAWN && s.store.getUsedCapacity(resourceType) > 0 && this.memory.role !== 'courier'
 	});
 	return secondary;
 };
@@ -155,7 +145,9 @@ Creep.prototype.generalTasks = function () {
 	// If a creep is idling, make them move 3 tiles away from any structure
 	if (this.memory.idle) {
 		// Find closest structure
-		const structure = this.pos.findClosestByRange(FIND_STRUCTURES, { filter: (s) => s.pos !== this.pos });
+		const structure = this.pos.findClosestByRange(FIND_STRUCTURES, {
+			filter: (s) => s.pos !== this.pos && [STRUCTURE_CONTROLLER, STRUCTURE_SPAWN, STRUCTURE_CONTAINER].includes(s.structureType)
+		});
 
 		// If there's no nearby structure, return
 		if (!structure) return;
@@ -164,21 +156,9 @@ Creep.prototype.generalTasks = function () {
 		// Determine cardinal direction to structure
 		const direction = this.pos.getDirectionTo(structure);
 
-		// TODO: Determine which of the following three directions is empty
-
 		// Determine & move to the direct opposite direction
 		const opposite = this.getOppositeDirection(direction);
 		this.move(opposite);
-
-		// Determine & move to the left opposite direction
-		const leftOpposite = opposite - 1;
-		if (leftOpposite === 0) leftOpposite = 8;
-		this.move(leftOpposite);
-
-		// Determine & move to the right opposite direction
-		const rightOpposite = opposite + 1;
-		if (rightOpposite === 9) rightOpposite = 1;
-		this.move(rightOpposite);
 	}
 };
 
