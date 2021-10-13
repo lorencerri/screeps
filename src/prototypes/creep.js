@@ -17,7 +17,17 @@ Creep.prototype.assignSource = function () {
 Creep.prototype._moveTo = Creep.prototype.moveTo;
 Creep.prototype.moveTo = function (target, opts = {}) {
 	this.memory.targetId = target.id;
-	this._moveTo(target, { reusePath: 25, visualizePathStyle: opts.visualizePathStyle || { stroke: this.getRoleColor() } });
+	return this._moveTo(target, { reusePath: 25, visualizePathStyle: opts.visualizePathStyle || { stroke: this.getRoleColor() } });
+};
+
+/***
+ * Withdraws, but makes sure it can't deposit back to the same place
+ */
+Creep.prototype._withdraw = Creep.prototype.withdraw;
+Creep.prototype.withdraw = function (target, opts = {}) {
+	const withdraw = this._withdraw(target, opts);
+	if (withdraw === OK) this.memory.lastWithdrawId = target.id;
+	return withdraw;
 };
 
 /***
@@ -107,6 +117,7 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 					(this.memory.role === 'harvester' // If it's a harvester, add the following conditions for containers
 						? (Object.values(Game.creeps).find((c) => c.memory.role === 'courier') && // If there's a courier on the map...
 								s.structureType === STRUCTURE_CONTAINER && // It can be a container
+								(this.memory.lastWithdrawId ? this.memory.lastWithdrawId !== s.id : true) &&
 								s.getType() === 'DEPOSIT') ||
 						  s.structureType === STRUCTURE_CONTAINER
 						: s.structureType === STRUCTURE_CONTAINER && s.getType() === 'DEPOSIT')) && // Otherwise, it can be a container
@@ -178,7 +189,7 @@ Creep.prototype.getClosestRepairStructure = function () {
 	return this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) => {
 			let max = s.hitsMax;
-			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 1000;
+			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 2000;
 			return s.hits < max;
 		}
 	});

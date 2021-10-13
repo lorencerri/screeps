@@ -6,19 +6,19 @@ const Config = {
 		max: 6,
 		parts: {
 			base: [WORK, CARRY, MOVE],
-			add: [WORK, WORK, CARRY]
+			add: [WORK]
 		}
 	},
 	upgrader: {
 		priority: 5,
-		max: 4,
+		max: 3,
 		parts: {
 			base: [WORK, CARRY, MOVE],
 			add: [WORK, WORK, CARRY]
 		}
 	},
 	builder: {
-		max: 4,
+		max: 3,
 		parts: {
 			base: [WORK, CARRY, MOVE],
 			add: [WORK, CARRY, CARRY]
