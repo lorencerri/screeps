@@ -55,6 +55,9 @@ module.exports.loop = function () {
 		// Get creep count of this type
 		const count = _.filter(Game.creeps, (creep) => creep.memory.role === type).length;
 
+		// Only one builder is needed when there are no construction sites
+		if (spawn.room.find(FIND_CONSTRUCTION_SITES).length === 0 && type === 'builder') role.max = 1;
+
 		// Determine if more should be spawned
 		if (count < role.max) {
 			// Determine parts of the creep
