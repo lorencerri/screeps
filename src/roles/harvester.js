@@ -18,7 +18,7 @@ const Harvester = {
 			if (!creep.pos.isNearTo(source)) return creep.moveTo(source);
 
 			// If near, harvest
-			const harvestCode = creep.harvest(source);
+			/*const harvestCode =*/ creep.harvest(source);
 
 			// If harvest is not OK, display code
 			// if (harvestCode !== OK) creep.say(harvestCode);
@@ -39,7 +39,7 @@ const Harvester = {
 			if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);
 
 			// If near, deposit energy
-			const transferCode = creep.transfer(structure, RESOURCE_ENERGY);
+			/*const transferCode =*/ creep.transfer(structure, RESOURCE_ENERGY);
 
 			// If transfer is not OK, display code
 			// if (transferCode !== OK) creep.say(transferCode);
