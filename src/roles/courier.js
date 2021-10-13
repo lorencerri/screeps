@@ -10,20 +10,30 @@ const Courier = {
 			creep.memory.canRefillExtensions = true;
 		}
 
+		// Modifier: Pick up dropped energy
+		const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+		if (creep.pos.inRangeTo(droppedEnergy)) {
+			console.log(`[${creep.name}] In range of dropped energy, attempting to pickup.`);
+			creep.pickup(droppedEnergy);
+		}
+
 		if (creep.memory.hauling) {
 			// Find the nearest depositable container
 			const structure = creep.getClosestDepositStructure();
 
-			/*// If applicable, refill courier
+			// If applicable, refill courier
 			if (creep.store.getFreeCapacity() > 0) {
 				// Find the nearest withdrawable container
 				const withdrawStructure = creep.getClosestWithdrawStructure();
-				if (creep.pos.getRangeTo(withdrawStructure) < creep.pos.getRangeTo(structure)) {
+				if (
+					creep.pos.getRangeTo(withdrawStructure) < creep.pos.getRangeTo(structure) &&
+					creep.store.getFreeCapacity() / creep.store.getCapacity() > 0.5
+				) {
 					console.log(`[${creep.name}] Close withdraw station found, refilling instead`);
 					creep.memory.hauling = false;
 					return this.run(creep);
 				}
-			}*/
+			}
 
 			// If no structure found, return
 			if (!structure) {
