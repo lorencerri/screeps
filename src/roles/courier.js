@@ -6,21 +6,10 @@ const Courier = {
 			// Find the nearest depositable container
 			const structure = creep.getClosestDepositStructure();
 
-			// If applicable, refill courier
-			if (creep.store.getFreeCapacity() > 0) {
-				// Find the nearest withdrawable container
-				const withdrawStructure = creep.getClosestWithdrawStructure();
-				if (creep.pos.getRangeTo(withdrawStructure) < creep.pos.getRangeTo(structure)) {
-					console.log(`[${creep.name}] Close withdraw station found, refilling instead`);
-					creep.memory.hauling = false;
-					return this.run(creep);
-				}
-			}
-
 			// If no structure found, return
 			if (!structure) {
 				creep.memory.idle = true;
-				return console.log(`[${creep.name}] No structure found`);
+				return console.log(`[${creep.name}] [Deposit] No structure found`);
 			} else creep.memory.idle = false;
 
 			// If not near, move to structure
@@ -32,8 +21,8 @@ const Courier = {
 			// If empty, toggle hauling flag
 			if (creep.store.getUsedCapacity() === 0) creep.toggle('hauling');
 		} else {
-			// If full, toggle hauling flag
-			if (creep.store.getFreeCapacity() === 0) creep.toggle('hauling');
+			// If has materials, toggle hauling flag
+			if (creep.store.getUsedCapacity() === 0) creep.toggle('hauling');
 
 			// Find the nearest withdrawable container
 			const structure = creep.getClosestWithdrawStructure();
@@ -41,7 +30,7 @@ const Courier = {
 			// If no structure found, return
 			if (!structure) {
 				creep.memory.idle = true;
-				return console.log(`[${creep.name}] No structure found`);
+				return console.log(`[${creep.name}] [Withdraw] No structure found`);
 			} else creep.memory.idle = false;
 
 			// If not near, move to structure
