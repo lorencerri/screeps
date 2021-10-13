@@ -156,10 +156,8 @@ Creep.prototype.generalTasks = function () {
 			filter: (s) => s.pos !== this.pos && [STRUCTURE_CONTROLLER, STRUCTURE_SPAWN, STRUCTURE_CONTAINER].includes(s.structureType)
 		});
 
-		return; // TODO: Fix this, it makes them stuck next to containers
-
 		// If there's no nearby structure, return
-		if (!structure) return;
+		if (!structure || !this.pos.isNearTo(structure, 1)) return;
 		else console.log(`[${this.name}] Idle and in the way, moving...`);
 
 		// Determine cardinal direction to structure
@@ -201,15 +199,6 @@ Creep.prototype.getClosestRepairStructure = function () {
 /***
  * Returns the opposite cardinal direction
  */
-Creep.prototype.getOppositeDirection = function (direction) {
-	return {
-		TOP: BOTTOM,
-		TOP_RIGHT: BOTTOM_LEFT,
-		RIGHT: LEFT,
-		BOTTOM_RIGHT: TOP_LEFT,
-		BOTTOM: TOP,
-		BOTTOM_LEFT: TOP_RIGHT,
-		LEFT: RIGHT,
-		TOP_LEFT: BOTTOM_RIGHT
-	}[direction];
+Creep.prototype.getOppositeDirection = function (d) {
+	return { 1: 5, 2: 6, 3: 7, 4: 8, 5: 1, 6: 2, 7: 3, 8: 4 }[d];
 };
