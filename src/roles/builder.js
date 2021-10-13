@@ -2,7 +2,8 @@
 
 const Builder = {
 	run: function (creep) {
-		creep.generalTasks();
+		const generalTasks = creep.generalTasks();
+		if (generalTasks) return;
 
 		if (creep.memory.building) {
 			// Find the nearest construction site

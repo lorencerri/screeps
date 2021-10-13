@@ -1,6 +1,7 @@
 const Harvester = {
 	run: function (creep) {
-		creep.generalTasks();
+		const generalTasks = creep.generalTasks();
+		if (generalTasks) return;
 
 		// If no source, run setup methods
 		if (!creep.memory.source) {

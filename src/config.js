@@ -29,7 +29,7 @@ const Config = {
 		priority: 10,
 		parts: {
 			base: [MOVE, CARRY, CARRY, CARRY],
-			add: [CARRY]
+			add: [CARRY, CARRY, CARRY, MOVE]
 		}
 	}
 };

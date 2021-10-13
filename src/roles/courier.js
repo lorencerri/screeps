@@ -1,20 +1,19 @@
 const Courier = {
 	run: function (creep) {
-		creep.generalTasks();
+		const generalTasks = creep.generalTasks();
+		if (generalTasks) return;
 
 		// Modifier: Only one courier should be assigned to fill extensions
 		const couriers = Object.values(Game.creeps).filter((c) => c.memory.role === 'courier');
-		const extensionRefillerExists = couriers.find((c) => c.memory.canRefillExtensions);
-		if (!extensionRefillerExists) {
+		const twoExtensionRefillersExists = couriers.filter((c) => c.memory.canRefillExtensions).length >= 2;
+		const towerRefillerExists = couriers.find((c) => c.memory.canRefillTowers);
+		if (!twoExtensionRefillersExists) {
 			console.log(`[${creep.name}] Assigned to refill extensions`);
 			creep.memory.canRefillExtensions = true;
-		}
-
-		// Modifier: Pick up dropped energy
-		const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
-		if (creep.pos.inRangeTo(droppedEnergy)) {
-			console.log(`[${creep.name}] In range of dropped energy, attempting to pickup.`);
-			creep.pickup(droppedEnergy);
+			creep.memory.canRefillTowers = false;
+		} else if (!towerRefillerExists && !creep.memory.canRefillExtensions) {
+			console.log(`[${creep.name}] Assigned to refill towers`);
+			creep.memory.canRefillTowers = true;
 		}
 
 		if (creep.memory.hauling) {

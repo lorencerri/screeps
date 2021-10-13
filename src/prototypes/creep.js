@@ -89,6 +89,16 @@ Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_
 };
 
 /***
+ * Withdraws, but makes sure it can't deposit back to the same place
+ */
+Creep.prototype._withdraw = Creep.prototype.withdraw;
+Creep.prototype.withdraw = function (target, opts = {}) {
+	const withdraw = this._withdraw(target, opts);
+	if (withdraw === OK) this.memory.lastWithdrawId = target.id;
+	return withdraw;
+};
+
+/***
  * Returns the closest depositable structure
  *
  * Requirements:
@@ -97,12 +107,13 @@ Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_
  */
 Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_ENERGY) {
 	return (
-		// Priority 1: Spawns, extensions, containers
+		// Priority 1: Spawns, extensions, containers, towers
 		this.pos.findClosestByPath(FIND_STRUCTURES, {
 			filter: (s) =>
 				// TODO: The 'if courier exists' part should encapsulate the entire structure types list.
 				// TODO: This should really be rewritten into a function instead of a bunch of operators
 				(s.structureType === STRUCTURE_SPAWN || // It can be a spawn
+					(this.memory.role === 'courier' && this.memory.canRefillTowers && s.structureType === STRUCTURE_TOWER) ||
 					(this.memory.role === 'courier'
 						? s.structureType === STRUCTURE_EXTENSION && this.memory.canRefillExtensions
 						: s.structureType === STRUCTURE_EXTENSION) || // It can be an extension
@@ -113,12 +124,6 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 								s.getType() === 'DEPOSIT') ||
 						  s.structureType === STRUCTURE_CONTAINER
 						: s.structureType === STRUCTURE_CONTAINER && s.getType() === 'DEPOSIT')) && // Otherwise, it can be a container
-				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
-		}) ||
-		// Priority 2: Towers
-		this.pos.findClosestByPath(FIND_STRUCTURES, {
-			filter: (s) =>
-				s.structureType == STRUCTURE_TOWER && // It can be a tower
 				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
 		})
 	);
@@ -160,7 +165,21 @@ Creep.prototype.generalTasks = function () {
 
 		// Determine & move to the direct opposite direction
 		const opposite = this.getOppositeDirection(direction);
-		this.move(opposite);
+		return this.move(opposite);
+	}
+
+	// Modifier: Pick up dropped energy
+	const droppedEnergy = this.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+	if (droppedEnergy && this.pos.inRangeTo(droppedEnergy, 1) && this.store.getFreeCapacity()) {
+		console.log(`[${this.name}] In range of dropped energy, attempting to pickup.`);
+		return this.pickup(droppedEnergy);
+	}
+
+	// Modifier: Extract from tombstone
+	const tombstone = this.pos.findClosestByPath(FIND_TOMBSTONES);
+	if (tombstone && this.pos.inRangeTo(tombstone, 1) && this.store.getFreeCapacity() > 0 && tombstone.store.getUsedCapacity() > 0) {
+		console.log(`[${this.name}] In range of tombstone, attempting to withdraw.`);
+		return this.withdraw(tombstone, RESOURCE_ENERGY);
 	}
 };
 
