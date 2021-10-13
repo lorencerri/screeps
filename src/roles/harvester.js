@@ -21,7 +21,7 @@ const Harvester = {
 			const harvestCode = creep.harvest(source);
 
 			// If harvest is not OK, display code
-			if (harvestCode !== OK) creep.say(harvestCode);
+			// if (harvestCode !== OK) creep.say(harvestCode);
 
 			// If full, toggle depositing flag
 			if (creep.store.getFreeCapacity() === 0) creep.toggle('depositing');
@@ -42,7 +42,7 @@ const Harvester = {
 			const transferCode = creep.transfer(structure, RESOURCE_ENERGY);
 
 			// If transfer is not OK, display code
-			if (transferCode !== OK) creep.say(transferCode);
+			// if (transferCode !== OK) creep.say(transferCode);
 		}
 	}
 };
