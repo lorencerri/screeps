@@ -30,6 +30,8 @@ module.exports.loop = function () {
 		if (!Game.creeps[name]) delete Memory.creeps[name];
 	}
 
+	const cpuUsage = [];
+
 	const spawn = Game.spawns['Spawn1'];
 
 	const extensions = spawn.room.find(FIND_STRUCTURES, {
@@ -103,8 +105,11 @@ module.exports.loop = function () {
 	}
 
 	// Iterate through all creeps
+	const cpuUsageBreakdown = {};
 	for (const name in Game.creeps) {
 		const creep = Game.creeps[name];
+		if (!cpuUsageBreakdown[`${creep.memory.role}s`]) cpuUsageBreakdown[`${creep.memory.role}s`] = 0;
+		let startCpu = Game.cpu.getUsed();
 
 		// Run script based on role
 		if (creep.memory.role === 'harvester') {
@@ -116,6 +121,8 @@ module.exports.loop = function () {
 		} else if (creep.memory.role === 'upgrader') {
 			Upgrader.run(creep, { shouldWithdrawSpawner });
 		}
+
+		cpuUsageBreakdown[`${creep.memory.role}s`] += Game.cpu.getUsed() - startCpu;
 	}
 
 	// Iterate through all structures
@@ -126,6 +133,16 @@ module.exports.loop = function () {
 			Tower.run(structure);
 		}
 	}
+
+	console.log('=== CPU USAGE SUMMARY ===');
+	console.log(
+		Object.keys(cpuUsageBreakdown)
+			.map((c) => `[${c}]: ${cpuUsageBreakdown[c].toFixed(3)}`)
+			.join('\n')
+	);
+	const totalCpu = Game.cpu.getUsed();
+	console.log(`Other: ${(totalCpu - Object.values(cpuUsageBreakdown).reduce((a, b) => a + b, 0)).toFixed(3)}`);
+	console.log(`Total: ${totalCpu.toFixed(3)}`);
 
 	/*// Search market buy orders for energy
     const orders = Game.market.getAllOrders({
