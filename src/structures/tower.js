@@ -4,7 +4,7 @@ const Tower = {
 		const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
 
 		// If there is a hostile creep, attack it
-		if (closestHostile) tower.attack(closestHostile);
+		if (closestHostile) return tower.attack(closestHostile);
 
 		// Find the closest damaged structure
 		const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
