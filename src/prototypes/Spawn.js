@@ -18,7 +18,7 @@ Spawn.prototype.spawnOnDemand = function () {
 		});
 
 		// Check if there are more that should be spawned
-		if (existingCreeps.length < (role.maxCreeps || 0)) {
+		if (existingCreeps.length < role.maxCreeps) {
 			const parts = role.base;
 
 			// Determine whether or not to add additional parts
@@ -42,6 +42,8 @@ Spawn.prototype.spawnOnDemand = function () {
 				// Ensure that the energy pool is not negative
 				if (energyPool < 0) return console.log(`[${this.name}] Something went wrong, energyPool is negative.`);
 			}
+
+			// TODO: Return if there is not enough energy to spawn creep
 
 			console.log(`[${this.name}] Spawning ${role.name} with parts [${parts.join(', ')}]`);
 
