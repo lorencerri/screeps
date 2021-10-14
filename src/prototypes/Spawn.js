@@ -40,9 +40,10 @@ Spawn.prototype.spawnOnDemand = function () {
 				}
 			}
 
-			// TODO: Return if there is not enough energy to spawn creep
+			// Return if there is not enough energy to spawn a creep
 			const energyRequired = parts.reduce((a, b) => a + BODYPART_COST[b], 0);
 			const energyAvailable = this.getEnergyAvailable();
+			if (energyRequired > energyAvailable) return;
 
 			console.log(`[${this.name}] Spawning ${role.name} with [${parts.join(', ')}] for ${energyRequired} energy`);
 
@@ -59,18 +60,10 @@ Spawn.prototype.spawnOnDemand = function () {
 	}
 };
 
-Spawn.prototype.getEnergyAvailable = function (extensions) {
-	// Base energy (from spawn)
+Spawn.prototype.getEnergyAvailable = function (extensions = []) {
 	let energyAvailable = this.store.getUsedCapacity(RESOURCE_ENERGY);
-
-	// Extensions
-	if (!extensions) {
-		extensions = this.room.find(FIND_MY_STRUCTURES, {
-			filter: (s) => s.structureType === STRUCTURE_EXTENSION
-		});
-	}
-
-	return true;
+	energyAvailable += extensions.reduce((a, b) => a + b.store.getUsedCapacity(RESOURCE_ENERGY), 0);
+	return energyAvailable;
 };
 
 // TODO: Cache this, run whenever deleted from cache (e.g, when a creep dies)
