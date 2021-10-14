@@ -4,6 +4,14 @@ My personal AI that I'm developing for the Screeps: World game.
 
 ---
 
+**Observations**
+Early Game:
+
+- Builders should not prioritize building the controller's container before the harvesters, even if it's closer.
+- Containers should automatically be placed
+- Roads should automatically be placed
+- Extensions should automatically be placed
+
 **Notes**
 
 - Couriers should act as transport belts

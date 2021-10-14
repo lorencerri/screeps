@@ -35,7 +35,7 @@ const Upgrader = {
 				if (withdrawResponse === OK) creep.toggle('upgrading');
 			} else {
 				// Find the nearest withdrawable container
-				const structure = creep.getClosestWithdrawableContainer();
+				const structure = creep.getClosestWithdrawStructure();
 
 				// If no structure found, return
 				if (!structure) {
