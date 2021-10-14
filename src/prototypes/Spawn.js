@@ -17,13 +17,15 @@ Spawn.prototype.spawnOnDemand = function () {
 			filter: (c) => c.memory.role === role.name
 		});
 
-		// Check if there are more that should be spawned
+		// Get total existing creeps
+		const totalCreeps = this.room.find(FIND_MY_CREEPS).length;
 
+		// Check if there are more that should be spawned
 		if (existingCreeps.length < role.maxCreeps) {
 			const parts = role.base;
 
 			// Determine whether or not to add additional parts
-			if ((role.name === 'builder' || existingCreeps.length !== 0) && role.add) {
+			if (this.room.find(FIND_MY_CREEPS).length !== 0 && role.add) {
 				// Determine energy pool amount to use for spawning
 				let energyPool = Math.min(role.maxEnergy, extensions.length * 50 + 300);
 
