@@ -11,7 +11,7 @@ const Upgrader = {
 			const upgradeResponse = creep.upgradeController(controller);
 
 			// If not in range, move to controler
-			if (upgradeResponse === ERR_NOT_IN_RANGE) creep.moveTo(controller, { visualizePathStyle });
+			if (upgradeResponse === ERR_NOT_IN_RANGE) creep.moveTo(controller);
 
 			// If empty, toggle upgrading flag
 			if (creep.store.getUsedCapacity(RESOURCE_ENERGY) === 0) creep.toggle('upgrading');

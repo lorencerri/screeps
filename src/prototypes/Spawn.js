@@ -24,7 +24,7 @@ Spawn.prototype.spawnOnDemand = function () {
 			// Determine whether or not to add additional parts
 			if (existingCreeps.length !== 0 && role.add) {
 				// Determine energy pool amount to use for spawning
-				let energyPool = Math.min([role.maxEnergy, extensions.length * 50 + 300]);
+				let energyPool = Math.min(role.maxEnergy, extensions.length * 50 + 300);
 
 				// Subtract base parts from the energy pool
 				energyPool -= parts.reduce((a, b) => a + BODYPART_COST[b], 0);
@@ -38,20 +38,20 @@ Spawn.prototype.spawnOnDemand = function () {
 						else break;
 					}
 				}
-
-				// Ensure that the energy pool is not negative
-				if (energyPool < 0) return console.log(`[${this.name}] Something went wrong, energyPool is negative.`);
 			}
 
 			// TODO: Return if there is not enough energy to spawn creep
 
-			console.log(`[${this.name}] Spawning ${role.name} with parts [${parts.join(', ')}]`);
+			console.log(
+				`[${this.name}] Spawning ${role.name} with parts [${parts.join(', ')}] (${parts.reduce((a, b) => a + BODYPART_COST[b], 0)} ENERGY)`
+			);
 
 			// Spawn creep
 			const spawnResponse = this.spawnCreep(parts, `${role.name}_${Game.time}`, {
 				memory: {
 					role: role.name
-				}
+				},
+				dryRun: true
 			});
 
 			if (spawnResponse !== OK) console.log(`[${this.name}] Returned with code ${spawnResponse}`);
