@@ -10,6 +10,9 @@ const Builder = require('./roles/builder');
 const Courier = require('./roles/courier');
 const Tower = require('./structures/tower');
 
+// Stats
+const StatsManager = require('./stats-manager');
+
 // Prototypes
 require('./prototypes/Creep');
 require('./prototypes/StructureContainer');
@@ -160,4 +163,6 @@ module.exports.loop = function () {
 
 	// If your excess CPU bucket is full, use 10000 CPU to generate a pixel
 	if (Game.cpu.bucket >= 10000) Game.cpu.generatePixel();
+
+	// StatsManager.runForAllRooms();
 };
