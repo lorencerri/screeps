@@ -8,9 +8,9 @@ My personal AI that I'm developing for the Screeps: World game.
 Early Game:
 
 - Builders should not prioritize building the controller's container before the harvesters, even if it's closer.
+- Roads should automatically be placed
 - Containers should automatically be placed in proper radius^[1]
-- Roads should automatically be placed in proper radius^[1]
-- Extensions should automatically be placed
+- Extensions should automatically be placed in proper radius^[1]
 - Builders should probably have withdraw priority over upgraders
 - Building containers next to energy sources should have priority over upgrading the controller
 - Upgraders should move away from spawn when idle (not critical)
