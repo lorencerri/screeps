@@ -74,7 +74,7 @@ Spawn.prototype.getBaseRoles = function () {
 			add: [CARRY, CARRY, CARRY, MOVE],
 			maxEnergy: 900,
 			maxCreeps:
-				this.room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }).length > 2 &&
+				!this.room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }) &&
 				this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length - 2
 		},
 		{
