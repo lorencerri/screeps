@@ -1,5 +1,5 @@
 const Tower = {
-	new: function (tower) {
+	run: function (tower) {
 		// Find the closest hostile creep
 		const closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
 
