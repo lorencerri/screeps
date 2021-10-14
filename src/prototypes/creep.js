@@ -197,6 +197,8 @@ Creep.prototype.generalTasks = function () {
 
 /***
  * Returns closest repairable structure
+ *
+ * TODO: Prioritize structures over roads
  */
 Creep.prototype.getClosestRepairStructure = function () {
 	return this.pos.findClosestByPath(FIND_STRUCTURES, {
