@@ -150,6 +150,7 @@ Creep.prototype.toggle = function (flag) {
  */
 Creep.prototype.generalTasks = function () {
 	// If a creep is idling, make them move 3 tiles away from any structure
+	// TODO: This only run if they moved last tick
 	if (this.memory.idle) {
 		// Find closest structure
 		const structure = this.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -157,8 +158,19 @@ Creep.prototype.generalTasks = function () {
 		});
 
 		// If there's no nearby structure, return
-		if (!structure || this.pos.getRangeTo(structure) > 1) return;
-		else console.log(`[${this.name}] Idle and too close to ${structure} (${this.pos.getRangeTo(structure)} tiles), moving...`);
+		if (!structure) return;
+
+		const range = this.pos.getRangeTo(structure);
+		if (range > 1) return;
+
+		console.log(`[${this.name}] Idle and too close to ${structure} (${this.pos.getRangeTo(structure)} tiles), moving...`);
+
+		if (range === 0) {
+			const spawn = this.pos.findClosestByPath(FIND_STRUCTURES, {
+				filter: (s) => s.structureType === STRUCTURE_SPAWN
+			});
+			return this.moveTo(spawn);
+		}
 
 		// Determine cardinal direction to structure
 		const direction = this.pos.getDirectionTo(structure);
