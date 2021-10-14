@@ -18,6 +18,7 @@ Spawn.prototype.spawnOnDemand = function () {
 		});
 
 		// Check if there are more that should be spawned
+
 		if (existingCreeps.length < role.maxCreeps) {
 			const parts = role.base;
 
@@ -42,7 +43,7 @@ Spawn.prototype.spawnOnDemand = function () {
 
 			// Return if there is not enough energy to spawn a creep
 			const energyRequired = parts.reduce((a, b) => a + BODYPART_COST[b], 0);
-			const energyAvailable = this.getEnergyAvailable();
+			const energyAvailable = this.getEnergyAvailable(extensions);
 			if (energyRequired > energyAvailable) return;
 
 			console.log(`[${this.name}] Spawning ${role.name} with [${parts.join(', ')}] for ${energyRequired} energy`);
@@ -82,8 +83,8 @@ Spawn.prototype.getBaseRoles = function () {
 			add: [CARRY, CARRY, CARRY, MOVE],
 			maxEnergy: 900,
 			maxCreeps:
-				!this.room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }) &&
-				this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length - 2
+				this.room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }) &&
+				this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length
 		},
 		{
 			name: 'builder',
