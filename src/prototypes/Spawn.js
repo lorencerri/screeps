@@ -18,7 +18,7 @@ Spawn.prototype.spawnOnDemand = function () {
 		});
 
 		// Check if there are more that should be spawned
-		if (existingCreeps.length < role.maxCreeps) {
+		if (existingCreeps.length < (role.maxCreeps || 0)) {
 			const parts = role.base;
 
 			// Determine whether or not to add additional parts
@@ -73,7 +73,9 @@ Spawn.prototype.getBaseRoles = function () {
 			base: [MOVE, CARRY, MOVE, CARRY, MOVE, CARRY],
 			add: [CARRY, CARRY, CARRY, MOVE],
 			maxEnergy: 900,
-			maxCreeps: this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length - 2
+			maxCreeps:
+				this.room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }).length > 2 &&
+				this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length - 2
 		},
 		{
 			name: 'builder',

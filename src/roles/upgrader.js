@@ -4,6 +4,8 @@ const { getOppositeDirection } = require('../helpers');
 const visualizePathStyle = { stroke: '#ffffff' };
 
 const Upgrader = {
+	new: function (creep) {},
+
 	run: function (creep, options) {
 		// Handle upgrading state
 		if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
