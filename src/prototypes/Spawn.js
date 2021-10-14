@@ -41,23 +41,26 @@ Spawn.prototype.spawnOnDemand = function () {
 			}
 
 			// TODO: Return if there is not enough energy to spawn creep
+			const energyRequired = parts.reduce((a, b) => a + BODYPART_COST[b], 0);
+			const energyAvailable = this.getEnergyAvailable();
 
-			console.log(
-				`[${this.name}] Spawning ${role.name} with parts [${parts.join(', ')}] (${parts.reduce((a, b) => a + BODYPART_COST[b], 0)} ENERGY)`
-			);
+			console.log(`[${this.name}] Spawning ${role.name} with [${parts.join(', ')}] for ${energyRequired} energy`);
 
 			// Spawn creep
 			const spawnResponse = this.spawnCreep(parts, `${role.name}_${Game.time}`, {
 				memory: {
 					role: role.name
-				},
-				dryRun: true
+				}
 			});
 
 			if (spawnResponse !== OK) console.log(`[${this.name}] Returned with code ${spawnResponse}`);
 			return spawnResponse;
 		}
 	}
+};
+
+Spawn.prototype.getEnergyAvailable = function () {
+	return true;
 };
 
 // TODO: Cache this, run whenever deleted from cache (e.g, when a creep dies)
