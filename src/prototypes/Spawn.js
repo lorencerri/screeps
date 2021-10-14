@@ -84,7 +84,7 @@ Spawn.prototype.getBaseRoles = function () {
 			maxEnergy: 900,
 			maxCreeps:
 				// Only spawn couriers if there is a container on the map
-				this.room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }).length > 0 &&
+				this.room.find(FIND_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }).length > 0 &&
 				this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length - 1
 		},
 		{
