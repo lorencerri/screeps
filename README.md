@@ -12,6 +12,7 @@ Early Game:
 - Roads should automatically be placed in proper radius^[1]
 - Extensions should automatically be placed
 - Builders should probably have withdraw priority over upgraders
+- Building containers next to energy sources should have priority over upgrading the controller
 - Upgraders should move away from spawn when idle (not critical)
 
 ^[1]proper radius = where at least two harvesters on a node can access it without moving
