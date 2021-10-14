@@ -22,7 +22,7 @@ Spawn.prototype.spawnOnDemand = function () {
 			const parts = role.base;
 
 			// Determine whether or not to add additional parts
-			if (existingCreeps.length !== 0 && role.add) {
+			if ((role.name === 'builder' || existingCreeps.length !== 0) && role.add) {
 				// Determine energy pool amount to use for spawning
 				let energyPool = Math.min(role.maxEnergy, extensions.length * 50 + 300);
 
@@ -59,7 +59,17 @@ Spawn.prototype.spawnOnDemand = function () {
 	}
 };
 
-Spawn.prototype.getEnergyAvailable = function () {
+Spawn.prototype.getEnergyAvailable = function (extensions) {
+	// Base energy (from spawn)
+	let energyAvailable = this.store.getUsedCapacity(RESOURCE_ENERGY);
+
+	// Extensions
+	if (!extensions) {
+		extensions = this.room.find(FIND_MY_STRUCTURES, {
+			filter: (s) => s.structureType === STRUCTURE_EXTENSION
+		});
+	}
+
 	return true;
 };
 

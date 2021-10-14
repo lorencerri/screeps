@@ -20,8 +20,8 @@ const Upgrader = {
 			if (creep.store.getFreeCapacity(RESOURCE_ENERGY) === 0) creep.toggle('upgrading');
 
 			// Check if there's a container next to the controller
-			const container = controller.pos.findInRange(FIND_STRUCTURES, 3, {
-				filter: (s) => s.structureType === STRUCTURE_CONTAINER
+			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+				filter: (s) => s.structureType === STRUCTURE_CONTAINER && s.pos.getRangeTo(controller) <= 3
 			});
 
 			if (container) {
