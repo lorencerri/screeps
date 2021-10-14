@@ -1,60 +1,53 @@
-// TODO: Rewrite upgrader file
-
-const { getOppositeDirection } = require('../helpers');
-const visualizePathStyle = { stroke: '#ffffff' };
-
 const Upgrader = {
-	new: function (creep) {},
+	run: function (creep) {
+		const generalTasks = creep.generalTasks();
+		if (generalTasks) return;
 
-	run: function (creep, options) {
-		// Handle upgrading state
-		if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
-			creep.memory.upgrading = false;
-		}
-		if (!creep.memory.upgrading && creep.store.getFreeCapacity() == 0) {
-			creep.memory.upgrading = true;
-		}
+		// Find the room's controller
+		const controller = creep.room.controller;
 
-		// Handle upgrading
 		if (creep.memory.upgrading) {
-			const controller = creep.room.controller;
-			const upgrade = creep.upgradeController(controller);
+			// Attempt to upgrade controller
+			const upgradeResponse = creep.upgradeController(controller);
 
-			// If out of range, move towards controller
-			if (upgrade == ERR_NOT_IN_RANGE) {
-				creep.moveTo(controller, { visualizePathStyle });
-			}
+			// If not in range, move to controler
+			if (upgradeResponse === ERR_NOT_IN_RANGE) creep.moveTo(controller, { visualizePathStyle });
+
+			// If empty, toggle upgrading flag
+			if (creep.store.getUsedCapacity(RESOURCE_ENERGY) === 0) creep.toggle('upgrading');
 		} else {
-			const container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-				filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.pos.inRangeTo(creep.room.controller, 3)
+			// If full, toggle the upgrading flag
+			if (creep.store.getFreeCapacity(RESOURCE_ENERGY) === 0) creep.toggle('upgrading');
+
+			// Check if there's a container next to the controller
+			const container = controller.pos.findInRange(FIND_STRUCTURES, 3, {
+				filter: (s) => s.structureType === STRUCTURE_CONTAINER
 			});
 
 			if (container) {
-				const withdraw = creep.withdraw(container, RESOURCE_ENERGY);
+				// If not near, move to container
+				if (!creep.pos.isNearTo(container)) return creep.moveTo(container);
 
-				// If out of range, move towards spawn
-				if (withdraw == ERR_NOT_IN_RANGE) {
-					creep.moveTo(container, { visualizePathStyle });
-				} else if (withdraw === OK) {
-					creep.memory.upgrading = true;
-				}
+				// If near, withdraw
+				const withdrawResponse = creep.withdraw(container, RESOURCE_ENERGY);
+
+				// Toggle upgrading flag
+				if (withdrawResponse === OK) creep.toggle('upgrading');
 			} else {
-				const spawn = creep.pos.findClosestByPath(FIND_MY_SPAWNS);
+				// Find the nearest withdrawable container
+				const structure = creep.getClosestWithdrawableContainer();
 
-				// Only pick up energy if spawn is full
-				if (!options.shouldWithdrawSpawner) {
-					// Don't wait adjacent to spawner in an effort to not block other creeps
-					if (creep.pos.getRangeTo(spawn) > 2) return creep.moveTo(spawn, { visualizePathStyle });
-					else if (creep.pos.getRangeTo(spawn) === 1) return creep.move(getOppositeDirection(creep.pos.getDirectionTo(spawn)));
-					else return;
-				}
+				// If no structure found, return
+				if (!structure) {
+					creep.memory.idle = true;
+					return console.log(`[${creep.name}] No structure found`);
+				} else creep.memory.idle = false;
 
-				const withdraw = creep.withdraw(spawn, RESOURCE_ENERGY);
+				// If not near, move to structure
+				if (!creep.pos.isNearTo(structure)) return creep.moveTo(structure);
 
-				// If out of range, move towards spawn
-				if (withdraw == ERR_NOT_IN_RANGE) {
-					creep.moveTo(spawn, { visualizePathStyle });
-				}
+				// If near, withdraw
+				creep.withdraw(structure, RESOURCE_ENERGY);
 			}
 		}
 	}
