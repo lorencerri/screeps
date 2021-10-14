@@ -150,7 +150,7 @@ Creep.prototype.toggle = function (flag) {
  */
 Creep.prototype.generalTasks = function () {
 	// If a creep is idling, make them move 3 tiles away from any structure
-	// TODO: This only run if they moved last tick
+	// TODO: This should only run if they moved last tick
 	if (this.memory.idle) {
 		// Find closest structure
 		const structure = this.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -198,16 +198,28 @@ Creep.prototype.generalTasks = function () {
 /***
  * Returns closest repairable structure
  *
- * TODO: Prioritize structures over roads
  */
 Creep.prototype.getClosestRepairStructure = function () {
-	return this.pos.findClosestByPath(FIND_STRUCTURES, {
+	// Find structures that need repair
+	const structure = this.pos.findClosestByPath(FIND_STRUCTURES, {
+		filter: (s) => ![STRUCTURE_WALL, STRUCTURE_ROAD].includes(s.structureType) && s.hits < s.hitsMax
+	});
+
+	// If a structure is found, return it
+	if (structure) return structure;
+
+	// Otherwise, find a wall or road that needs repair
+	const externalStructure = this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) => {
-			let max = s.hitsMax;
-			if (s.structureType === STRUCTURE_WALL || s.structureType === STRUCTURE_RAMPART) max = 20000;
-			return s.hits < max;
+			if (![STRUCTURE_WALL, STRUCTURE_ROAD].includes(s.structureType)) return;
+			let hitsMax = s.hitsMax;
+			if (s.hitsMax > 20000) hitsMax = 20000;
+			return s.hits < hitsMax;
 		}
 	});
+
+	// Return response
+	return externalStructure;
 };
 
 /***
