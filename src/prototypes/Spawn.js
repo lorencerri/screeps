@@ -43,7 +43,8 @@ Spawn.prototype.spawnOnDemand = function () {
 			// Return if there is not enough energy to spawn a creep
 			const energyRequired = parts.reduce((a, b) => a + BODYPART_COST[b], 0);
 			const energyAvailable = this.getEnergyAvailable(extensions);
-			if (energyRequired > energyAvailable) return;
+			if (energyRequired > energyAvailable) return (global.attemptingToSpawn = true);
+			else global.attemptingToSpawn = false;
 
 			console.log(`[${this.name}] Spawning ${role.name} with [${parts.join(', ')}] for ${energyRequired} energy`);
 
