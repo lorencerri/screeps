@@ -77,10 +77,7 @@ Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_
 
 	const secondary = this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) =>
-			s.structureType === STRUCTURE_SPAWN &&
-			global.attemptingToSpawn !== true &&
-			s.store.getUsedCapacity(resourceType) > 0 &&
-			this.memory.role !== 'courier'
+			s.structureType === STRUCTURE_SPAWN && !global.attemptingToSpawn && s.store.getUsedCapacity(resourceType) > 0 && this.memory.role !== 'courier'
 	});
 	return secondary;
 };

@@ -4,11 +4,6 @@ My personal AI that I'm developing for the Screeps: World game.
 
 ---
 
-**TODO** (Based on automation simulation)
-
-- [ ] Rewrite upgrader script
-- [ ] Disable screeps from removing energy from spawn if another creep is trying to spawn
-
 **Notes**
 
 - Couriers should act as transport belts
