@@ -1,5 +1,3 @@
-// TODO: Rewrite builder file
-
 const Builder = {
 	run: function (creep) {
 		const generalTasks = creep.generalTasks();
