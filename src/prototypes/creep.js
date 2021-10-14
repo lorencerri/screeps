@@ -31,6 +31,8 @@ Creep.prototype.getRoleColor = function () {
 			return '#FFFF00';
 		case 'builder':
 			return '#0000FF';
+		case 'upgrader':
+			return '#7CFC00';
 		default:
 			return '#ffffff';
 	}
