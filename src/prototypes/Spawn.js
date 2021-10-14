@@ -17,9 +17,6 @@ Spawn.prototype.spawnOnDemand = function () {
 			filter: (c) => c.memory.role === role.name
 		});
 
-		// Get total existing creeps
-		const totalCreeps = this.room.find(FIND_MY_CREEPS).length;
-
 		// Check if there are more that should be spawned
 		if (existingCreeps.length < role.maxCreeps) {
 			const parts = role.base;
@@ -85,8 +82,9 @@ Spawn.prototype.getBaseRoles = function () {
 			add: [CARRY, CARRY, CARRY, MOVE],
 			maxEnergy: 900,
 			maxCreeps:
+				// Only spawn couriers if there is a container on the map
 				this.room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_CONTAINER }) &&
-				this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length
+				this.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role === 'harvester' }).length - 1
 		},
 		{
 			name: 'builder',
