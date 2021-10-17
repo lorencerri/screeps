@@ -5,7 +5,7 @@ const Courier = {
 
 		// Modifier: Only one courier should be assigned to fill extensions
 		const couriers = Object.values(Game.creeps).filter((c) => c.memory.role === 'courier');
-		const twoExtensionRefillersExists = couriers.filter((c) => c.memory.canRefillExtensions).length >= 2;
+		const twoExtensionRefillersExists = couriers.filter((c) => c.memory.canRefillExtensions).length >= 1; // This can be two if there aren't any links
 		const towerRefillerExists = couriers.find((c) => c.memory.canRefillTowers);
 		if (!twoExtensionRefillersExists) {
 			console.log(`[${creep.name}] Assigned to refill extensions`);

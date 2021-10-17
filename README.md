@@ -14,6 +14,7 @@ Early Game:
 - Builders should probably have withdraw priority over upgraders
 - Building containers next to energy sources should have priority over upgrading the controller
 - Upgraders should move away from spawn when idle (not critical)
+- Harvesters should utilize drop mining (this means couriers should spawn if there's no container)
 
 ^[1]proper radius = where at least two harvesters on a node can access it without moving
 

@@ -54,9 +54,10 @@ Creep.prototype.getRoleColor = function () {
 Creep.prototype.getClosestWithdrawStructure = function (resourceType = RESOURCE_ENERGY) {
 	const priority = this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) => {
-			if (s.structureType !== STRUCTURE_CONTAINER) return false;
+			if (s.structureType !== STRUCTURE_CONTAINER && s.structureType !== STRUCTURE_LINK) return false;
 			if (s.store.getUsedCapacity(resourceType) === 0) return false;
-			if (s.getType() !== 'WITHDRAW') return false;
+			if (s.structureType === STRUCTURE_CONTAINER && s.getType() !== 'WITHDRAW') return false;
+			if (s.structureType === STRUCTURE_LINK && this.memory.role === 'courier') return false;
 
 			// Get all creeps going towards this container
 			const creeps = Object.values(Game.creeps).filter((c) => c.memory.targetId === s.id);
@@ -108,7 +109,8 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 			filter: (s) =>
 				// TODO: The 'if courier exists' part should encapsulate the entire structure types list.
 				// TODO: This should really be rewritten into a function instead of a bunch of operators
-				(s.structureType === STRUCTURE_SPAWN || // It can be a spawn
+				(s.structureType === STRUCTURE_SPAWN ||
+					s.structureType === STRUCTURE_LINK || // It can be a spawn
 					(this.memory.role === 'courier' && this.memory.canRefillTowers && s.structureType === STRUCTURE_TOWER) ||
 					(this.memory.role === 'courier'
 						? s.structureType === STRUCTURE_EXTENSION && this.memory.canRefillExtensions

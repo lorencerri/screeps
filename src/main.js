@@ -6,6 +6,7 @@ const Courier = require('./roles/courier');
 
 // Structures
 const Tower = require('./structures/tower');
+const Link = require('./structures/link');
 
 // Prototypes
 require('./prototypes/Creep');
@@ -55,6 +56,8 @@ module.exports.loop = function () {
 			case STRUCTURE_TOWER:
 				Tower.run(structure);
 				break;
+			case STRUCTURE_LINK:
+				Link.run(structure);
 			default:
 				break;
 		}
