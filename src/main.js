@@ -3,6 +3,7 @@ const Harvester = require('./roles/harvester');
 const Upgrader = require('./roles/upgrader');
 const Builder = require('./roles/builder');
 const Courier = require('./roles/courier');
+const Settler = require('./roles/settler');
 
 // Structures
 const Tower = require('./structures/tower');
@@ -41,6 +42,9 @@ module.exports.loop = function () {
 				break;
 			case 'upgrader':
 				Upgrader.run(creep);
+				break;
+			case 'settler':
+				Settler.run(creep);
 				break;
 			default:
 				console.log(`[${creep.name}] Unable to run, not assigned to a role`);

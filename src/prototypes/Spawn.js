@@ -92,7 +92,13 @@ Spawn.prototype.getBaseRoles = function () {
 			base: [WORK, CARRY, MOVE, WORK],
 			add: [CARRY, MOVE, WORK, CARRY, MOVE],
 			maxEnergy: 900,
-			maxCreeps: this.room.find(FIND_CONSTRUCTION_SITES).length === 0 ? 1 : 3
+			maxCreeps: this.room.find(FIND_CONSTRUCTION_SITES).length === 0 ? 1 : 1
+		},
+		{
+			name: 'settler',
+			base: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, HEAL],
+			maxEnergy: 1150,
+			maxCreeps: 0
 		},
 		{
 			name: 'upgrader',
