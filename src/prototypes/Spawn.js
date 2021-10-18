@@ -34,7 +34,8 @@ Spawn.prototype.spawnOnDemand = function () {
 					for (let x = 0; x < role.add.length; x++) {
 						const part = role.add[x];
 						energyPool -= BODYPART_COST[part];
-						if (energyPool >= 0) parts.push(part);
+						if (parts.length >= 50) break;
+						else if (energyPool >= 0) parts.push(part);
 						else break;
 					}
 				}
@@ -46,10 +47,13 @@ Spawn.prototype.spawnOnDemand = function () {
 			if (energyRequired > energyAvailable) return (global.attemptingToSpawn = true);
 			else global.attemptingToSpawn = false;
 
+			// Sort parts
+			const sortedParts = this.organizeParts(parts);
+
 			console.log(`[${this.name}] Spawning ${role.name} with [${parts.join(', ')}] for ${energyRequired} energy`);
 
 			// Spawn creep, also organize the parts by importance
-			const spawnResponse = this.spawnCreep(this.organizeParts(parts), `${role.name}_${Game.time}`, {
+			const spawnResponse = this.spawnCreep(sortedParts, `${role.name}_${Game.time}`, {
 				memory: {
 					role: role.name
 				}
@@ -109,7 +113,7 @@ Spawn.prototype.getBaseRoles = function () {
 			base: [MOVE, MOVE, HEAL],
 			add: [MOVE, TOUGH],
 			maxEnergy: 1800,
-			maxCreeps: 1
+			maxCreeps: 0
 		},
 		{
 			name: 'upgrader',

@@ -200,7 +200,7 @@ Creep.prototype.generalTasks = function () {
 Creep.prototype.getClosestRepairStructure = function () {
 	// Find structures that need repair
 	const structure = this.pos.findClosestByPath(FIND_STRUCTURES, {
-		filter: (s) => ![STRUCTURE_WALL, STRUCTURE_ROAD].includes(s.structureType) && s.hits < s.hitsMax
+		filter: (s) => ![STRUCTURE_WALL, STRUCTURE_ROAD, STRUCTURE_RAMPART].includes(s.structureType) && s.hits < s.hitsMax
 	});
 
 	// If a structure is found, return it
@@ -209,7 +209,7 @@ Creep.prototype.getClosestRepairStructure = function () {
 	// Otherwise, find a wall or road that needs repair
 	const externalStructure = this.pos.findClosestByPath(FIND_STRUCTURES, {
 		filter: (s) => {
-			if (![STRUCTURE_WALL, STRUCTURE_ROAD].includes(s.structureType)) return;
+			if (![STRUCTURE_WALL, STRUCTURE_ROAD, STRUCTURE_RAMPART].includes(s.structureType)) return;
 			let hitsMax = s.hitsMax;
 			if (s.hitsMax > 20000) hitsMax = 20000;
 			return s.hits < hitsMax;
