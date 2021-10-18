@@ -48,8 +48,8 @@ Spawn.prototype.spawnOnDemand = function () {
 
 			console.log(`[${this.name}] Spawning ${role.name} with [${parts.join(', ')}] for ${energyRequired} energy`);
 
-			// Spawn creep (reverse the array, since tough and move parts are typically dynamically assigned)
-			const spawnResponse = this.spawnCreep(parts.reverse(), `${role.name}_${Game.time}`, {
+			// Spawn creep, also organize the parts by importance
+			const spawnResponse = this.spawnCreep(this.organizeParts(parts), `${role.name}_${Game.time}`, {
 				memory: {
 					role: role.name
 				}
@@ -65,6 +65,16 @@ Spawn.prototype.getEnergyAvailable = function (extensions = []) {
 	let energyAvailable = this.store.getUsedCapacity(RESOURCE_ENERGY);
 	energyAvailable += extensions.reduce((a, b) => a + b.store.getUsedCapacity(RESOURCE_ENERGY), 0);
 	return energyAvailable;
+};
+
+/***
+ * Organizes an array of creep parts by placing tought parts first
+ */
+Spawn.prototype.organizeParts = function (parts) {
+	return parts.sort(function (a, b) {
+		if (a === TOUGH && b !== TOUGH) return -1;
+		else if (a !== TOUGH && b === TOUGH) return 1;
+	});
 };
 
 // TODO: Cache this, run whenever deleted from cache (e.g, when a creep dies)
@@ -98,8 +108,8 @@ Spawn.prototype.getBaseRoles = function () {
 			name: 'settler',
 			base: [MOVE, MOVE, HEAL],
 			add: [MOVE, TOUGH],
-			maxEnergy: 1150,
-			maxCreeps: 0
+			maxEnergy: 1800,
+			maxCreeps: 1
 		},
 		{
 			name: 'upgrader',
