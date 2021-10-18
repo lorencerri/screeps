@@ -48,8 +48,8 @@ Spawn.prototype.spawnOnDemand = function () {
 
 			console.log(`[${this.name}] Spawning ${role.name} with [${parts.join(', ')}] for ${energyRequired} energy`);
 
-			// Spawn creep
-			const spawnResponse = this.spawnCreep(parts, `${role.name}_${Game.time}`, {
+			// Spawn creep (reverse the array, since tough and move parts are typically dynamically assigned)
+			const spawnResponse = this.spawnCreep(parts.reverse(), `${role.name}_${Game.time}`, {
 				memory: {
 					role: role.name
 				}
@@ -92,11 +92,12 @@ Spawn.prototype.getBaseRoles = function () {
 			base: [WORK, CARRY, MOVE, WORK],
 			add: [CARRY, MOVE, WORK, CARRY, MOVE],
 			maxEnergy: 900,
-			maxCreeps: this.room.find(FIND_CONSTRUCTION_SITES).length === 0 ? 1 : 1
+			maxCreeps: this.room.find(FIND_CONSTRUCTION_SITES).length === 0 ? 1 : 3
 		},
 		{
 			name: 'settler',
-			base: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, HEAL],
+			base: [MOVE, MOVE, HEAL],
+			add: [MOVE, TOUGH],
 			maxEnergy: 1150,
 			maxCreeps: 0
 		},
