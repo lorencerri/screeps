@@ -1,6 +1,6 @@
 const Settler = {
 	run: function (creep) {
-		const room = 'E46S53';
+		const room = 'E46S56';
 		console.log('Claiming');
 
 		// If hurt, heal

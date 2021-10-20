@@ -1,14 +1,21 @@
 /***
- * Assigns a valid source to the creep
+ * Assigns a valid source (or mineral) to the creep
  */
 Creep.prototype.assignSource = function () {
-	// Find the closest source that doesn't have three miners assigned to it
 	const roomCreeps = this.room.find(FIND_MY_CREEPS);
 	const filter = (s) => roomCreeps.filter((c) => c.memory.source === s.id).length < 3;
 	const source = this.pos.findClosestByPath(FIND_SOURCES_ACTIVE, { filter });
-	if (!source) return console.log(`[${this.name}] Unable to assign source, none found.`);
-	this.memory.source = source.id;
-	console.log(`[${this.name}] Assigned source ${source.id}`);
+	if (source) {
+		this.memory.source = source.id;
+		console.log(`[${this.name}] Assigned source ${source.id}`);
+	} else {
+		const filter2 = (s) => roomCreeps.filter((c) => c.memory.source === s.id).length < 3;
+		const mineral = this.pos.findClosestByPath(FIND_MINERALS, { filter });
+		if (mineral) {
+			this.memory.source = mineral.id;
+			console.log(`[${this.name}] Assigned mineral ${mineral.id}`);
+		} else return console.log(`[${this.name}] Unable to assign source or mineral, none found.`);
+	}
 };
 
 /***

@@ -89,7 +89,9 @@ Spawn.prototype.getBaseRoles = function () {
 			base: [WORK, CARRY, MOVE, WORK],
 			add: [WORK],
 			maxEnergy: 400,
-			maxCreeps: this.room.find(FIND_SOURCES).length * 3
+			get maxCreeps() {
+				return this.room.find(FIND_SOURCES).length * 3;
+			}
 		},
 		{
 			name: 'courier',
