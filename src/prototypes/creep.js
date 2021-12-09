@@ -123,7 +123,7 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 			filter: (s) =>
 				// TODO: The 'if courier exists' part should encapsulate the entire structure types list.
 				// TODO: This should really be rewritten into a function instead of a bunch of operators
-				(s.structureType === STRUCTURE_SPAWN ||
+				((s.structureType === STRUCTURE_SPAWN ||
 					s.structureType === STRUCTURE_LINK || // It can be a spawn
 					(this.memory.role === 'courier' && this.memory.canRefillTowers && s.structureType === STRUCTURE_TOWER) ||
 					(this.memory.role === 'courier'
@@ -136,7 +136,8 @@ Creep.prototype.getClosestDepositStructure = function (resourceType = RESOURCE_E
 								s.getType() === 'DEPOSIT') ||
 						  s.structureType === STRUCTURE_CONTAINER
 						: s.structureType === STRUCTURE_CONTAINER && s.getType() === 'DEPOSIT')) && // Otherwise, it can be a container
-				s.store.getFreeCapacity(resourceType) > 0 // It has to have free capacity
+					s.store.getFreeCapacity(resourceType) > 0) ||
+				s.structureType === STRUCTURE_TERMINAL // It has to have free capacity
 		})
 	);
 };
