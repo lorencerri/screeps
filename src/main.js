@@ -4,10 +4,12 @@ const Upgrader = require('./roles/upgrader');
 const Builder = require('./roles/builder');
 const Courier = require('./roles/courier');
 const Settler = require('./roles/settler');
+const Miner = require('./roles/miner');
 
 // Structures
 const Tower = require('./structures/tower');
 const Link = require('./structures/link');
+const Terminal = require('./structures/terminal');
 
 // Prototypes
 require('./prototypes/Creep');
@@ -46,6 +48,9 @@ module.exports.loop = function () {
 			case 'settler':
 				Settler.run(creep);
 				break;
+			case 'miner':
+				Miner.run(creep);
+				break;
 			default:
 				console.log(`[${creep.name}] Unable to run, not assigned to a role`);
 				break;
@@ -62,6 +67,10 @@ module.exports.loop = function () {
 				break;
 			case STRUCTURE_LINK:
 				Link.run(structure);
+				break;
+			case STRUCTURE_TERMINAL:
+				Terminal.run(structure);
+				break;
 			default:
 				break;
 		}

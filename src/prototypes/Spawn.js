@@ -18,7 +18,7 @@ Spawn.prototype.spawnOnDemand = function () {
 		});
 
 		// Check if there are more that should be spawned
-		if (existingCreeps.length < role.maxCreeps) {
+		if (existingCreeps.length < (role.getMaxCreeps ? role.getMaxCreeps(this.room) : role.maxCreeps)) {
 			const parts = role.base;
 
 			// Determine whether or not to add additional parts
@@ -89,8 +89,8 @@ Spawn.prototype.getBaseRoles = function () {
 			base: [WORK, CARRY, MOVE, WORK],
 			add: [WORK],
 			maxEnergy: 400,
-			get maxCreeps() {
-				return this.room.find(FIND_SOURCES).length * 3;
+			getMaxCreeps(room) {
+				return room.find(FIND_SOURCES).length * 3;
 			}
 		},
 		{
@@ -123,6 +123,19 @@ Spawn.prototype.getBaseRoles = function () {
 			add: [WORK],
 			maxEnergy: 900,
 			maxCreeps: 3
+		},
+		{
+			name: 'miner',
+			base: [WORK, CARRY, MOVE, WORK],
+			add: [WORK],
+			maxEnergy: 400,
+			getMaxCreeps(room) {
+				if (
+					room.find(FIND_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_TERMINAL }).length > 0 &&
+					room.find(FIND_STRUCTURES, { filter: (s) => s.structureType === STRUCTURE_EXTRACTOR }).length > 0
+				)
+					return 1;
+			}
 		}
 	];
 };

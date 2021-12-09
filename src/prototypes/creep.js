@@ -1,5 +1,5 @@
 /***
- * Assigns a valid source (or mineral) to the creep
+ * Assigns a valid source to the creep
  */
 Creep.prototype.assignSource = function () {
 	const roomCreeps = this.room.find(FIND_MY_CREEPS);
@@ -8,14 +8,20 @@ Creep.prototype.assignSource = function () {
 	if (source) {
 		this.memory.source = source.id;
 		console.log(`[${this.name}] Assigned source ${source.id}`);
-	} else {
-		const filter2 = (s) => roomCreeps.filter((c) => c.memory.source === s.id).length < 3;
-		const mineral = this.pos.findClosestByPath(FIND_MINERALS, { filter });
-		if (mineral) {
-			this.memory.source = mineral.id;
-			console.log(`[${this.name}] Assigned mineral ${mineral.id}`);
-		} else return console.log(`[${this.name}] Unable to assign source or mineral, none found.`);
-	}
+	} else return console.log(`[${this.name}] Unable to assign source, none found.`);
+};
+
+/***
+ * Assigns a valid mineral to the creep
+ */
+Creep.prototype.assignMineral = function () {
+	const roomCreeps = this.room.find(FIND_MY_CREEPS);
+	const filter = (s) => roomCreeps.filter((c) => c.memory.source === s.id).length < 3;
+	const source = this.pos.findClosestByPath(FIND_MINERALS, { filter });
+	if (source) {
+		this.memory.source = source.id;
+		console.log(`[${this.name}] Assigned mineral ${source.id}`);
+	} else return console.log(`[${this.name}] Unable to assign mineral, none found.`);
 };
 
 /***
@@ -32,6 +38,7 @@ Creep.prototype.moveTo = function (target, opts = {}) {
  */
 Creep.prototype.getRoleColor = function () {
 	switch (this.memory.role) {
+		case 'miner':
 		case 'harvester':
 			return '#964B00';
 		case 'courier':
